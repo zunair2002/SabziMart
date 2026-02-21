@@ -1,7 +1,8 @@
 'use client'
 import axios from 'axios';
 import { Bike, Contact, User, UserCog } from 'lucide-react'
-import { redirect } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { redirect, useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 
 function Roleselection() {
@@ -13,11 +14,15 @@ function Roleselection() {
   ])
   const [selectedrole,setselectedrole]=useState('');
   const [mobile,setmobile]=useState('');
+  const {update} = useSession();
+
+  const router = useRouter();
 
   const edithandler = async()=>{
     try{
       const data = await axios.post('api/user/roleselect',{mobile,role:selectedrole})
-      redirect('/');
+      await update({role:selectedrole})
+      router.push('/');
     }catch(error){
       console.log('error in updation frontend');
     }

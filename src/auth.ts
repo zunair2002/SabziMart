@@ -64,13 +64,16 @@ callbacks:{
       }
       return true;
     },
-    //always rtuen token
-    jwt({token,user}) {
+    //always rtuen token || session ko update krany ky liye trigger function 
+    jwt({token,user,trigger,session}) {
         if(user){
             token.id = user.id,
             token.name = user.name,
             token.email = user.email,
             token.role = user.role
+        }
+        if(trigger === 'update'){
+          token.role = session.role
         }
         return token
     },

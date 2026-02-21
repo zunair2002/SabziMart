@@ -80,7 +80,7 @@ function UserHomepage() {
           initial={{ y: 0, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.8 }}
-          className="px-8 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-800 transition-all"
+          className="px-8 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-800 transition-all cursor-pointer"
         >
           {slides[current].btnn}
         </motion.button>

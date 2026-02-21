@@ -1,29 +1,38 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
-//Routes ko protect kr rhy hain
+export async function proxy(req: NextRequest) {
+  const { pathname } = req.nextUrl;
 
-export async function proxy(req:NextRequest){
-    //currently path of user
-    const {pathname} = req.nextUrl
-    const Publicroutes = ['/login','/register','/api/auth']
-    //agr user route above walon sy start tu mean public hain
-    if(Publicroutes.some((path)=>pathname.startsWith(path))){
-        return NextResponse.next();
-    }
-    //protected routes
-    const token = await getToken({req,secret:process.env.AUTH_SECRET})
-    // console.log('Proxy may token: ',token);
-    // console.log('Current URL: ',req.url);
-    if(!token){
-        const loginurl = new URL('/login',req.url)
-        console.log(loginurl);
-        loginurl.searchParams.set("callbackurl",req.url)
-        return NextResponse.redirect(loginurl);
-    }
+  const Publicroutes = ['/login', '/register', '/', '/api/auth', '/unauthorized'];
+  if (Publicroutes.some((path) => pathname.startsWith(path))) {
     return NextResponse.next();
- }
- //we want that our middleware not run in every route optimize kr rhy ta kay in pr na chaly
-     export const config = {
-     matcher: '/((?!api|_next/static|_next/image|favicon.ico).*)',
-     }
+  }
+
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  if (!token) {
+    const loginurl = new URL('/login', req.url);
+    loginurl.searchParams.set("callbackurl", req.url);
+    return NextResponse.redirect(loginurl);
+  }
+
+  const role = token.role;
+  if (!pathname.startsWith('/user') && role === 'user') {
+    console.log("Unauthorized access by user role at:", req.url);
+    return NextResponse.redirect(new URL('/unauthorized', req.url));
+  }
+  if (!pathname.startsWith('/admin') && role === 'admin') {
+    console.log("Unauthorized access by admin role at:", req.url);
+    return NextResponse.redirect(new URL('/unauthorized', req.url));
+  }
+  if (!pathname.startsWith('/rider') && role === 'rider') {
+    console.log("Unauthorized access by rider role at:", req.url);
+    return NextResponse.redirect(new URL('/unauthorized', req.url));
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: '/((?!api|_next/static|_next/image|favicon.ico).*)',
+};
