@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 body{
-    height: 100vh;
-background: linear-gradient(
-  to bottom,
-  #e0fcdf,
-  #d5f8e7,
-  #ffffff
-);
-    color: rgb(0, 0, 0);
+height: 100%;
+  margin: 0;
+  padding: 0;
+background: #dfdfdfef;
+}
+.hide_scrolling{
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }

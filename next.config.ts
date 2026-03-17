@@ -5,7 +5,8 @@ const nextConfig: NextConfig = {
   // jab google image dyta tu usy config krna prhta
   images:{
     remotePatterns:[
-      {hostname:'lh3.googleusercontent.com'}
+      {hostname:'lh3.googleusercontent.com'},
+      {hostname:'res.cloudinary.com'}
     ]
   }
 };

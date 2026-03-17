@@ -27,12 +27,16 @@ export async function POST(req: NextRequest) {
         let imageURL='';
         if (file) {
          imageURL = await uploadImage(file,'grocery_items')
+         //file ka URL a rha
+         console.log("frontend sy onclick pr formData:", imageURL,data);
         }
 
         // save into DB
         const gerocerydata = await Gerocery.create({
-            name,category,unit,price,file:imageURL
+            name,category,unit,price,image:imageURL
         })
+        console.log('jo data DB may store howa:',gerocerydata)
+
         return NextResponse.json({
             message:"Gerocery items added successfully",
             status:200

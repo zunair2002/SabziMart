@@ -59,32 +59,34 @@ function Navbar({ user }: { user: Iuser }) {
                     setmenu(false);
                   }}
                 >
-                  <X className="w-5 h-5 text-white hover: pointer-cursor transition"/>
+                  <X className="w-5 h-5 text-white hover: pointer-cursor transition" />
                 </button>
               </div>
               <div className="flex items-center gap-3 mt-5 bg-white/20 p-3 w-[90%] mx-auto rounded-lg">
-  <div className="w-9 h-9 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
-    {user.image ? (
-      <Image
-        src={user.image}
-        alt="user"
-        width={35}
-        height={35}
-        className="object-cover w-full h-full"
-      />
-    ) : (
-      <User className="w-4 h-4 text-gray-600" />
-    )}
-        </div>
-        <div className="flex flex-col leading-tight">
-          <span className="text-[15px] font-sm text-white mb-1">
-            {user.name}
-          </span>
-        </div>
-      </div>
-      <div className="flex flex-col gap-2 w-[90%] mx-auto mt-8">
-  <Link
-                  href=""
+                <div className="w-9 h-9 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
+                  {user.image ? (
+                    <Image
+                      src={user.image}
+                      alt="user"
+                      width={35}
+                      height={35}
+                      className="object-cover w-full h-full"
+                    />
+                  ) : (
+                    <User className="w-4 h-4 text-gray-600" />
+                  )}
+                </div>
+
+                {/* Mobile veiw kay liye (Admin side) */}
+                <div className="flex flex-col leading-tight">
+                  <span className="text-[15px] font-sm text-white mb-1">
+                    {user.name}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 w-[90%] mx-auto mt-8">
+                <Link
+                  href="/admin/add-items"
                   className="flex items-center gap-3 mt-1 bg-white/20 p-3 w-[100%] mx-auto rounded-lg text-white"
                 >
                   <PlusCircle className="w-4 h-4" />
@@ -106,14 +108,15 @@ function Navbar({ user }: { user: Iuser }) {
                   <ClipboardCheck className="w-4 h-4" />
                   <span>Manage Grocery</span>
                 </Link>
-<hr className="text-white/30 mt-4"/>
-<div
+                <hr className="text-white/30 mt-4" />
+                <div
                   className="flex items-center gap-3 mt-75 bg-white/20 p-3 w-[100%] mx-auto rounded-lg text-red-600 hover:bg-red-200 transition"
-                  onClick={async ()=> await signOut({ callbackUrl: "/" })}>
+                  onClick={async () => await signOut({ callbackUrl: "/" })}
+                >
                   <LogOut className="w-4 h-4 text-red-600" />
                   <span>Logout</span>
                 </div>
-</div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>,
@@ -123,42 +126,53 @@ function Navbar({ user }: { user: Iuser }) {
 
   return (
     <div className="w-full">
-      <nav className="w-full bg-green-700 shadow-md px-4 md:px-6 py-3 flex items-center justify-between relative z-50">
+      {/* Navbar */}
+      <nav className="w-[95%] backdrop-blur-md px-4 md:px-8 py-2 flex items-center justify-center mx-auto relative z-50 bg-white shadow-2xl rounded-full mt-2">
         <div className="flex items-center">
-          <Link
-            href="/"
-            className="font-mono font-bold text-lg md:text-xl text-white"
-          >
-            SabziMart
+          <Link href="/">
+            <div className="h-[64px] w-[150px] rounded flex items-center justify-left">
+              <img
+                src="/logo-removebg-preview.png"
+                alt="Grocery Image"
+                className="h-full w-full object-contain"
+              />
+            </div>
           </Link>
         </div>
 
-        <div className="hidden sm:flex flex-1 justify-center px-4">
+        {/* Desktop veiw kay liye (user side)*/}
+        <div className="hidden sm:flex flex-1 justify-center items-center px-4">
           {user.role === "user" && (
-            <form className="flex items-center bg-white rounded-full p-1 sm:px-2 sm:py-1.5 border border-gray-200 transition-all duration-300 w-full max-w-xs md:max-w-md">
-              <Search size={18} className="text-gray-500 shrink-0" />
+            <form className="group flex items-center w-full max-w-md bg-transparent mt-1 rounded-full px-4 py-2 border-[0.25px] border-gray-400 transition-all duration-300 ease-in-out focus-within:border-orange-700 focus-within:ring-[0.25px] focus-within:ring-orange-200">
+              <Search
+                size={20}
+                className="text-gray-400 shrink-0 mr-3 transition-colors duration-300 group-focus-within:text-gray-400"
+              />
               <input
                 type="text"
-                placeholder="Search"
-                className="ml-2 w-full outline-none text-sm bg-transparent text-gray-700 transition-all duration-300"
+                placeholder="Search fresh groceries"
+                className="flex-1 bg-transparent outline-none text-black placeholder-gray-400 px-1"
               />
             </form>
           )}
         </div>
-
+        {/* Mobile veiw kay liye (user side)*/}
         <div className="flex items-center space-x-3 md:space-x-4">
           {user.role === "user" && (
             <>
               <button
                 type="button"
                 onClick={() => setsearchbar(!searchbar)}
-                className="sm:hidden flex items-center justify-center w-8 h-8 bg-white rounded-full border border-gray-200"
+                className="sm:hidden flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full border-[0.5px] border-gray-400"
               >
-                <Search size={15} className="text-gray-500 shrink-0" />
+                <Search size={13} className="text-black shrink-0" />
               </button>
 
               <Link href="#" className="relative inline-block">
-                <ShoppingCartIcon className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-yellow-600">
+                  <ShoppingCartIcon className="w-5 h-5 text-white" />
+                </div>
+
                 <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">
                   0
                 </span>
@@ -168,9 +182,10 @@ function Navbar({ user }: { user: Iuser }) {
 
           {user.role === "admin" && (
             <>
+              {/* Desktop veiw kay liye (admin side) */}
               <div className="hidden md:flex gap-2">
                 <Link
-                  href=""
+                  href="/admin/add-items"
                   className="flex items-center gap-1.5 px-2.5 py-2 bg-white text-green-800 text-xs font-bold rounded-full shadow-sm hover:bg-green-200 transition"
                 >
                   <PlusCircle className="w-4 h-4" />
@@ -205,7 +220,7 @@ function Navbar({ user }: { user: Iuser }) {
 
           <div className="relative inline-block">
             <div
-              className="w-9 h-9 md:w-10 md:h-10 rounded-full overflow-hidden flex items-center justify-center bg-gray-100 cursor-pointer"
+              className="w-10 h-10 md:w-10 md:h-10 rounded-full overflow-hidden flex items-center justify-center border-[0.5px] rounded-full bg-gray-200 shadow-lg hover:scale-105 hover:bg-gray-300 transition-all duration-300 cursor-pointer text-gray-400"
               onClick={() => setdropdown((i) => !i)}
             >
               {user.image ? (
@@ -278,7 +293,7 @@ function Navbar({ user }: { user: Iuser }) {
           </div>
         </div>
       </nav>
-
+    <span className="block w-[94%] h-[0.25px] bg-gray-300 mb-5 mx-auto"></span>
       {searchbar && (
         <div className="sm:hidden w-full p-2 animate-in slide-in-from-top duration-300">
           <form className="flex items-center bg-white rounded-full px-4 py-2 w-full border border-gray-500">

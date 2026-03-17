@@ -21,8 +21,6 @@ async function Home() {
     return <Roleselection />;
   }
   const plaintext = JSON.parse(JSON.stringify(user));
-  console.log(plaintext);
-  console.log(user);
   return (
     <>
       <Navbar user={plaintext} />

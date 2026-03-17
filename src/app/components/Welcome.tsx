@@ -6,13 +6,13 @@ type proptype={
 }
 function Welcome({nextstep}:proptype) {
   return (
-    <div className="h-screen bg-gradient-to-b from-green-200 via-green-100 to-white font-sans flex items-center justify-center">
+    <div className="h-screen font-sans flex items-center justify-center">
   <section className="text-center px-4 mt-1">
-    <p className="text-[8px] tracking-widest text-green-700">
+    <p className="text-[8px] tracking-widest text-gray-500">
       PRESENT YOUR SERVICE
     </p>
 
-    <h1 className="text-4xl md:text-5xl font-extrabold mt-4 text-green-900">
+    <h1 className="text-5xl md:text-5xl font-extrabold mt-4 text-orange-500">
       SabziMart
     </h1>
 
@@ -20,7 +20,7 @@ function Welcome({nextstep}:proptype) {
   We focus on providing quality products at affordable prices making shopping easy and convenient for everyone. 
 </p>
     <div className="flex justify-center mt-[50px]">
-      <button className="bg-green-900 text-white px-6 py-2 rounded-md cursor-pointer text-sm hover:bg-green-700 transition shadow-md" onClick={()=>nextstep(2)}>
+      <button className="bg-orange-500 text-white px-6 py-2 rounded-md cursor-pointer text-sm hover:bg-orange-600 transition shadow-md" onClick={()=>nextstep(2)}>
         Get started
       </button>
     </div>

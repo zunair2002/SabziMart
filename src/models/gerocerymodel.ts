@@ -17,17 +17,19 @@ const geroceryschema = new mongoose.Schema<Igerocery>(
     category: {
       type: String,
       enum: [
-        "Fruits",
-        "Vegetables",
-        "Dairy",
-        "Meat & Seafood",
-        "Bakery",
-        "Beverages",
-        "Snacks",
-        "Pantry",
-        "Frozen",
-        "Household",
-        "Personal Care",
+      "Fruits & Veg",
+      "Dairy & Eggs",
+      "Meat & Fish",
+      "Bakery",
+      "Drinks",
+      "Snacks",
+      "Pantry",       
+      "Frozen",
+      "Household",
+      "Personal Care",
+      "Organic",
+      "Pet Care",
+      "Other"
       ],
       required: true,
     },
@@ -38,6 +40,21 @@ const geroceryschema = new mongoose.Schema<Igerocery>(
     unit: {
       type: String,
       required: true,
+      enum:[
+          "kg",
+          "g",
+          "liter",
+          "ml",
+          "pack",
+          "piece",
+          "bottle",
+          "box",
+          "dozen",
+          "bag",
+          "jar",
+          "can",
+          "tube"
+      ]
     },
     image: {
       type: String,

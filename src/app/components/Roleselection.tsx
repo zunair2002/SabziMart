@@ -28,7 +28,7 @@ function Roleselection() {
     }
   }
   return (
-  <div className="min-h-screen bg-gradient-to-b from-green-200 via-green-100 to-white font-sans flex items-center justify-center px-4">
+  <div className="min-h-screen font-sans flex items-center justify-center px-4">
     <div className="w-full max-w-lg text-center space-y-8">
       <h1 className="text-[26px] sm:text-[30px] font-bold text-green-700">
         Please select your role

@@ -38,19 +38,19 @@ function LoginForm() {
     }
   }
   return (
-    <div className="h-screen bg-gradient-to-b from-green-100 via-green-50 to-white font-sans relative">
+    <div className="h-screen font-sans relative">
       <div className="h-full flex items-center justify-center">
-        <div className="w-full max-w-sm p-6">
-          <h2 className="text-[30px] font-bold text-center text-green-600">
+        <div className="w-full max-w-sm p-6 rounded-xl shadow-xl bg-white">
+          <h2 className="text-[30px] font-bold text-center text-orange-500">
             Welcome Back!
           </h2>
           <div className="flex items-center justify-center gap-1 mt-1 mb-6">
-            <Leaf size={12} className="text-green-700 mt-1" />
+            <Leaf size={12} className="text-green-600" />
             <p className="text-sm text-gray-400">connect with us</p>
           </div>
           <form onSubmit={loginhandler}>
           <div className="space-y-4">
-            <div className="flex items-center border border-gray-300 rounded-[8px] px-3 focus-within:border-green-700 focus-within:ring-1 focus-within:ring-green-600">
+            <div className="flex items-center border-[0.25px] border-gray-300 rounded-[8px] px-3 border-[0.25px] border-gray-300 transition-all duration-300 ease-in-out focus-within:border-gray-400 focus-within:ring-[0.25px] focus-within:ring-gray-200">
               <Mail className="text-gray-400" size={18} />
               <input
                 type="email"
@@ -60,7 +60,7 @@ function LoginForm() {
               />
             </div>
 
-            <div className="flex items-center border border-gray-300 rounded-[8px] px-3 focus-within:border-green-700 focus-within:ring-1 focus-within:ring-green-600">
+            <div className="flex items-center border-[0.25px] border-gray-300 rounded-[8px] px-3 border-[0.25px] border-gray-300 transition-all duration-300 ease-in-out focus-within:border-gray-400 focus-within:ring-[0.25px] focus-within:ring-gray-200">
               <Lock className="text-gray-400" size={18} />
 
               <input
@@ -93,7 +93,7 @@ function LoginForm() {
       disabled={!validation}
       className={`w-full py-2 rounded-[8px] font-medium transition flex justify-center items-center gap-2 ${
         validation
-          ? "bg-green-700 text-white hover:bg-green-600 cursor-pointer"
+          ? "bg-gray-400 text-white hover:bg-gray-500 cursor-pointer"
           : "bg-gray-300 text-gray-500 cursor-not-allowed"
       }`}
     >
@@ -115,19 +115,19 @@ function LoginForm() {
             <div className="flex-grow h-px bg-gray-300"></div>
           </div>
 
-          <div className="w-full border border-gray-300 py-2 rounded-[8px] flex items-center justify-center cursor-pointer gap-2 hover:bg-gray-50 transition" onClick={()=>signIn('google',{callbackUrl:'/'})}>
+          <div className="w-full border border-gray-300 bg-gray-400 py-2 rounded-[8px] flex items-center justify-center cursor-pointer gap-2 hover:bg-gray-500 transition" onClick={()=>signIn('google',{callbackUrl:'/'})}>
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               className="w-4 h-4"
             />
-            <span className="text-sm font-medium text-gray-500">
+            <span className="text-sm font-medium text-white">
               Continue with Google
             </span>
           </div>
           <p className="text-sm text-gray-500 gap-1 flex items-center justify-center mt-3 cursor-pointer" onClick={()=>router.push('/register')}>
             want to create an account?
-            <LogIn className="text-green-600 mt-[1px]" size={15} />
-            <span className="text-green-600">Sign up</span>
+            <LogIn className="text-orange-600 mt-[1px]" size={15} />
+            <span className="text-orange-600">Sign up</span>
           </p>
       </form>
         </div>

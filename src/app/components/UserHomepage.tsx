@@ -8,23 +8,23 @@ function UserHomepage() {
     const slides = [
        {
   id: 1,
-  title: 'Fresh Groceries',
+  title: <>Fresh <span className="text-yellow-400">Groceries</span></>,
   paragrapgh: 'Healthy, fresh, and just a click away.',
-  btnn: 'Explore Now',
+  btnn: 'Order Now',
   bg: '/gerhard-venter-4LeHpAry1eg-unsplash.jpg'
 },
 {
   id: 2,
-  title: 'Fast Delivery',
+  title:<>Fast <span className="text-yellow-400">Delivery</span></>,
   paragrapgh: 'Farm-fresh essentials delivered straight to your doorstep.',
-  btnn: 'Explore Now',
+  btnn: 'Order Now',
   bg: '/gerhard-venter-gVABE-KpYrU-unsplash.jpg'
 },
 {
   id: 3,
-  title: 'Join with us',
+  title:<>Join <span className="text-yellow-400">with us</span></>,
   paragrapgh: 'Be part of our fresh journey.',
-  btnn: 'Explore Now',
+  btnn: 'Order Now',
   bg: '/gerhard-venter-mQkeBkBGpSo-unsplash.jpg'
 }
     ]
@@ -62,7 +62,7 @@ function UserHomepage() {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="text-4xl md:text-6xl font-bold mb-4 text-green-500"
+          className="text-4xl md:text-6xl font-bold mb-4 text-gray-300"
         >
           {slides[current].title}
         </motion.h1>
@@ -71,7 +71,7 @@ function UserHomepage() {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="text-sm max-w-xl mb-[40px] text-gray-200"
+          className="text-[12px] max-w-xl mb-[60px] text-gray-300"
         >
           {slides[current].paragrapgh}
         </motion.p>
@@ -80,7 +80,7 @@ function UserHomepage() {
           initial={{ y: 0, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.8 }}
-          className="px-8 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-800 transition-all cursor-pointer"
+          className="px-8 py-3 bg-orange-700 text-white font-semibold rounded-full hover:bg-orange-800 transition-all cursor-pointer"
         >
           {slides[current].btnn}
         </motion.button>
