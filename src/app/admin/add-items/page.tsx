@@ -86,136 +86,133 @@ function Additems() {
     setfrontend_image(URL.createObjectURL(file));
   };
   return (
-    <>
-    <div className="min-h-dvh flex flex-col">
-      <Link
-        href="/"
-        className="fixed top-4 left-4 flex items-center gap-1 px-3 py-1.5 rounded-full bg-[#1F3D2B] text-white text-sm font-medium shadow-md hover:bg-[#3E7C59] hover:text-white cursor-pointer transition"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        <span>Back</span>
-      </Link>
+  <div className="min-h-dvh flex flex-col bg-gray-50">
+  <Link
+    href="/"
+    className="fixed top-6 left-6 flex items-center gap-2 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-semibold shadow-lg hover:bg-orange-700 transition cursor-pointer z-10"
+  >
+    <ArrowLeft className="w-5 h-5" />
+    <span>Back to Home</span>
+  </Link>
 
-      <main className="flex-1 flex justify-center items-center px-4 py-6">
-        <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-6">
-          <h1 className="flex items-center justify-center gap-2 text-[20px] font-bold text-[#31F3D2B] mb-2">
-            <PlusCircle className="w-5 h-5" />
-            <span>Grocery List</span>
-          </h1>
+  <main className="flex-1 flex justify-center items-center px-4 py-8">
+    <div className="w-full max-w-xl bg-white rounded-2xl shadow-xl p-8 sm:p-10 border border-gray-100">
+      <div className="text-center mb-8">
+        <h1 className="flex items-center justify-center gap-3 text-2xl font-extrabold text-orange-600 mb-2">
+          <PlusCircle className="w-5 h-5" />
+          <span>Grocery List</span>
+        </h1>
+        <p className="text-sm text-gray-700 font-sm">
+          Fill out the details below to add new grocery items to your inventory
+        </p>
+      </div>
 
-          <span className="flex items-center justify-center text-[10px] mb-4">
-            Fill out the details below to add new grocery items
-          </span>
-
-          <form className="space-y-4" onSubmit={handle_save_records}>
-            <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">
-                Grocery Name<span className="text-red-600 pl-1">*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="eg. milk"
-                onChange={(e) => setname(e.target.value)}
-                value={name}
-                className="w-full px-3 py-1.5 text-sm rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-green-600"
-              />
-            </div>
-
-            <div className="flex gap-3">
-              <div className="w-1/2">
-                <label className="block text-xs font-medium text-gray-600 mb-1">
-                  Category<span className="text-red-600 pl-1">*</span>
-                </label>
-                <select
-                  className="w-full px-3 py-1.5 text-sm rounded-md border border-gray-300 bg-white focus:outline-none focus:ring-1 focus:ring-green-600"
-                  onChange={(e) => setcategory(e.target.value)}
-                  value={category}
-                >
-                  {Geroceries_Category.map((i, index) => (
-                    <option key={index} value={i}>
-                      {i}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="w-1/2">
-                <label className="block text-xs font-medium text-gray-600 mb-1">
-                  Unit<span className="text-red-600 pl-1">*</span>
-                </label>
-                <select
-                  className="w-full px-3 py-1.5 text-sm rounded-md border border-gray-300 bg-white focus:outline-none focus:ring-1 focus:ring-green-600"
-                  onChange={(e) => setcategory_unit(e.target.value)}
-                  value={category_unit}
-                >
-                  {unit.map((i, index) => (
-                    <option key={index} value={i}>
-                      {i}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">
-                Price <span className="text-red-600 pl-1">*</span>
-              </label>
-              <input
-                type="number"
-                placeholder="eg. 130"
-                onChange={(e) => setprice(e.target.value)}
-                value={price}
-                className="w-full px-3 py-1.5 text-sm rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-green-600"
-              />
-            </div>
-            <div className="flex items-center justify-center gap-4">
-              <label
-                htmlFor="imageUpload"
-                className="flex items-center gap-2 cursor-pointer rounded-md border border-green-300 bg-green-100 px-3 py-1.5 text-xs font-medium text-green-800 shadow-sm hover:bg-green-200"
-              >
-                <Upload className="w-4 h-4" />
-                <span>Upload image</span>
-              </label>
-
-              <input
-                id="imageUpload"
-                type="file"
-                accept="image/*"
-                onChange={handle_gerocery_image}
-                className="hidden"
-              />
-
-              {frontend_image && (
-                <div className="w-[100px] h-[100px] flex-shrink-0 rounded-[5px] border border-green-300 shadow-md overflow-hidden">
-                  <Image
-                    src={frontend_image}
-                    alt="image"
-                    width={100}
-                    height={100}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              )}
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-2 text-sm flex items-center justify-center rounded-md bg-[#1F3D2B] text-white font-medium hover:bg-[#3E7C59] cursor-pointer transition"
-            >
-               {loading ? (
-        <>
-          <Loader2 className="animate-spin h-5 w-5" />
-        </>
-      ) : (
-        "Add Gerocery"
-      )}
-            </button>
-          </form>
+      <form className="space-y-6" onSubmit={handle_save_records}>
+        <div className="space-y-1.5">
+          <label className="block text-sm font-semibold text-gray-700">
+            Grocery Name<span className="text-red-600 pl-1">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="eg. Fresh Milk"
+            onChange={(e) => setname(e.target.value)}
+            value={name}
+            className="w-full px-4 py-3 text-base rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-600/20 focus:border-orange-600 transition"
+          />
         </div>
-      </main>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="space-y-1.5">
+            <label className="block text-sm font-semibold text-gray-700">
+              Category<span className="text-red-600 pl-1">*</span>
+            </label>
+            <select
+              className="w-full px-4 py-3 text-base rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-orange-600/20 focus:border-orange-600 transition"
+              onChange={(e) => setcategory(e.target.value)}
+              value={category}
+            >
+              {Geroceries_Category.map((i, index) => (
+                <option key={index} value={i}>
+                  {i}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="block text-sm font-semibold text-gray-700">
+              Unit<span className="text-red-600 pl-1">*</span>
+            </label>
+            <select
+              className="w-full px-4 py-3 text-base rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-orange-600/20 focus:border-orange-600 transition"
+              onChange={(e) => setcategory_unit(e.target.value)}
+              value={category_unit}
+            >
+              {unit.map((i, index) => (
+                <option key={index} value={i}>
+                  {i}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="block text-sm font-semibold text-gray-700">
+            Price (Rs)<span className="text-red-600 pl-1">*</span>
+          </label>
+          <input
+            type="number"
+            placeholder="eg. 130"
+            onChange={(e) => setprice(e.target.value)}
+            value={price}
+            className="w-full px-4 py-3 text-base rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-600/20 focus:border-orange-600 transition"
+          />
+        </div>
+
+        <div className="flex flex-col items-center justify-center gap-4 p-6 border-2 border-dashed border-gray-200 rounded-2xl bg-gray-50">
+  <label
+    htmlFor="imageUpload"
+    className="flex flex-col items-center justify-center cursor-pointer"
+  >
+    <Upload className="w-5 h-5 mb-1" />
+    <span className="text-sm text-gray-700">Upload Product Image</span>
+  </label>
+
+  <input
+    id="imageUpload"
+    type="file"
+    accept="image/*"
+    onChange={handle_gerocery_image}
+    className="hidden"
+  />
+
+  {frontend_image && (
+    <div className="relative w-32 h-32 mt-2 rounded-xl border-2 border-orange-200 shadow-lg overflow-hidden bg-white">
+      <Image
+        src={frontend_image}
+        alt="preview"
+        fill
+        className="object-contain p-2"
+      />
     </div>
-    </>
+  )}
+</div>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full py-2 text-md flex items-center justify-center rounded-xl bg-orange-600 text-white font-bold hover:bg-orange-700 shadow-lg shadow-orange-600/20 cursor-pointer transition-all active:scale-[0.98] disabled:opacity-70"
+        >
+          {loading ? (
+            <Loader2 className="animate-spin h-6 w-6" />
+          ) : (
+            "Add To Grocery Store"
+          )}
+        </button>
+      </form>
+    </div>
+  </main>
+</div>
   );
 }
 

@@ -19,19 +19,13 @@ async function Userdashboard() {
           Grocery Items
         </h2>
       </div>
-      <div className="w-[95%] mx-auto mt-10">
-        <div
-          className="grid gap-3 
-                  grid-cols-3     
-                  sm:grid-cols-4  
-                  md:grid-cols-6   
-                  lg:grid-cols-7"
-        >
-          {plaingerocery.map((i: any) => (
-            <GeroceryCart key={i._id} i={i} />
-          ))}
-        </div>
-      </div>
+  <div className="w-[96%] max-w-[1600px] mx-auto mt-8 border-[0.25px] text-gray-300 rounded-lg">
+  <div className="grid gap-4 sm:gap-6 md:gap-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-3 py-3">
+    {plaingerocery.map((i: any) => (
+      <GeroceryCart key={i._id} i={i} />
+    ))}
+  </div>
+</div>
     </div>
   );
 }

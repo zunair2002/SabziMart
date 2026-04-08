@@ -19,6 +19,8 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { signOut } from "next-auth/react";
 import { createPortal } from "react-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 interface Iuser {
   _id?: mongoose.Types.ObjectId;
@@ -34,6 +36,7 @@ function Navbar({ user }: { user: Iuser }) {
   const [dropdown, setdropdown] = useState(false);
   const [searchbar, setsearchbar] = useState(false);
   const [menu, setmenu] = useState(false);
+  const {cartdata} = useSelector((state:RootState)=>(state.cart))
 
   const Sidebar = menu
     ? createPortal(
@@ -45,12 +48,11 @@ function Navbar({ user }: { user: Iuser }) {
               exit={{ x: "-100%", opacity: 0 }}
               transition={{ delay: 0.1, duration: 0.4 }}
               className="fixed top-0 left-0 h-screen w-[50%] md:w-[70%]
-                         bg-gradient-to-b from-green-900 to-green-600
-                         shadow-lg z-50"
+                         bg-white shadow-lg z-50"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between p-4 bg-green-700">
-                <h1 className="text-lg font-bold text-white">Admin Panel</h1>
+              <div className="flex items-center justify-between p-4 bg-orange-500">
+                <h1 className="text-md font-bold text-white">Admin Panel</h1>
 
                 <button
                   className="p-2 rounded-full hover:bg-green-300"
@@ -79,7 +81,7 @@ function Navbar({ user }: { user: Iuser }) {
 
                 {/* Mobile veiw kay liye (Admin side) */}
                 <div className="flex flex-col leading-tight">
-                  <span className="text-[15px] font-sm text-white mb-1">
+                  <span className="text-[15px] font-sm text-gray-700 mb-1">
                     {user.name}
                   </span>
                 </div>
@@ -168,13 +170,12 @@ function Navbar({ user }: { user: Iuser }) {
                 <Search size={13} className="text-black shrink-0" />
               </button>
 
-              <Link href="#" className="relative inline-block">
+              <Link href="/user/cart" className="relative inline-block">
                 <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-yellow-600">
                   <ShoppingCartIcon className="w-5 h-5 text-white" />
                 </div>
-
                 <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">
-                  0
+                  {cartdata.length}
                 </span>
               </Link>
             </>
@@ -186,7 +187,7 @@ function Navbar({ user }: { user: Iuser }) {
               <div className="hidden md:flex gap-2">
                 <Link
                   href="/admin/add-items"
-                  className="flex items-center gap-1.5 px-2.5 py-2 bg-white text-green-800 text-xs font-bold rounded-full shadow-sm hover:bg-green-200 transition"
+                  className="flex items-center gap-1.5 px-2.5 py-2 bg-orange-600 text-white text-xs font-bold rounded-full shadow-sm hover:bg-orange-700 transition"
                 >
                   <PlusCircle className="w-4 h-4" />
                   <span>Add Grocery</span>
@@ -194,7 +195,7 @@ function Navbar({ user }: { user: Iuser }) {
 
                 <Link
                   href=""
-                  className="flex items-center gap-1.5 px-2.5 py-1 bg-white text-green-800 text-xs font-bold rounded-full shadow-sm hover:bg-green-200 transition"
+                  className="flex items-center gap-1.5 px-2.5 py-1 bg-orange-600 text-white text-xs font-bold rounded-full shadow-sm hover:bg-orange-700 transition"
                 >
                   <Boxes className="w-4 h-4" />
                   <span>View Grocery</span>
@@ -202,7 +203,7 @@ function Navbar({ user }: { user: Iuser }) {
 
                 <Link
                   href=""
-                  className="flex items-center gap-1.5 px-2.5 py-1 bg-white text-green-800 text-xs font-bold rounded-full shadow-sm hover:bg-green-200 transition"
+                  className="flex items-center gap-1.5 px-2.5 py-1 bg-orange-600 text-white text-xs font-bold rounded-full shadow-sm hover:bg-orange-700 transition"
                 >
                   <ClipboardCheck className="w-4 h-4" />
                   <span>Manage Grocery</span>

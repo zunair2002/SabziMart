@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 interface Igerocery {
-  id?: mongoose.Types.ObjectId;
+  _id?: mongoose.Types.ObjectId;
   name: string;
   category: string;
   price: string;

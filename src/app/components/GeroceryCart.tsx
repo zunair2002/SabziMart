@@ -1,9 +1,14 @@
-import { Plus } from 'lucide-react';
-import mongoose from 'mongoose';
-import Image from 'next/image';
-import React from 'react'
+"use client";
+import { addquantity, setcartdata, substractquantity } from "@/redux/cartSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { Bell, Heart, Minus, Plus, ShoppingCart } from "lucide-react";
+import mongoose from "mongoose";
+import Image from "next/image";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 interface Igerocery {
-  id?: mongoose.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
   name: string;
   category: string;
   price: string;
@@ -11,49 +16,82 @@ interface Igerocery {
   image: string;
 }
 
-function GeroceryCart({i}:{i:Igerocery}) {
+function GeroceryCart({ i }: { i: Igerocery }) {
+  const dispatch = useDispatch<AppDispatch>();
+  const { cartdata } = useSelector((state: RootState) => state.cart);
+  
+  // Is line mein hum i._id use kar rahe hain
+  const cartitems = cartdata.find((item) => item._id.toString() === i._id.toString());
+
   return (
-    <>
-<div className="bg-[#F8F9FA] rounded-lg sm:rounded-2xl p-1.5 sm:p-4 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group relative border border-transparent hover:border-gray-200">
-    <div className="flex justify-center items-center aspect-square mb-1 sm:mb-3 overflow-hidden">
-    <Image
-      src={i.image}
-      alt={i.name}
-      width={80}
-      height={80}
-      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
-    />
+<div className="bg-white rounded-2xl p-3 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 w-full">
+  <div className="relative bg-gray-100 rounded-xl overflow-hidden mb-3 flex items-center justify-center h-40 w-full flex-shrink-0">
+  <Image
+    src={i.image}
+    alt={i.name}
+    width={192}  
+    height={192}
+    className="object-cover w-full h-full rounded-md"
+  />
+    <button className="absolute top-2 right-2 bg-white rounded-full p-1.5 shadow hover:bg-gray-100 transition">
+      <Heart size={16} className="text-gray-600" />
+    </button>
   </div>
-  <div className="flex flex-col text-left">
-  <div className="flex flex-col mt-2">
-  <h1 className="text-[10px] sm:text-xs md:text-sm font-semibold font-sans text-gray-500 mb-1">
+
+  <p className="text-xs text-gray-500 font-medium mb-1 truncate">
     {i.category}
-  </h1>
-  <h3 className="text-sm sm:text-base md:text-lg font-semibold font-sans text-gray-800 mb-2">
+  </p>
+
+  <h3 className="text-sm font-semibold text-gray-800 leading-tight mb-1">
     {i.name}
   </h3>
-</div>
 
-<span className="text-[10px] font-bold text-gray-600 bg-gray-200 rounded-full px-3 py-[2.5px] w-fit">
-  {i.unit}
-</span>
+  <p className="text-xs text-gray-400 mb-2">
+    {i.unit}
+  </p>
 
-    <div className="flex items-center justify-between mt-1">
-      <span className="text-[10px] sm:text-lg font-bold font-sans text-gray-800">
-        Rs {i.price}
-      </span>
-      <button className="group/btn w-5 h-5 sm:w-8 sm:h-8 flex items-center justify-center bg-orange-600 text-white rounded-full transition-all duration-300 hover:scale-110 active:scale-95 shadow-sm">
-        <Plus 
-          size={14} 
-          className="sm:w-4 sm:h-4 transition-transform duration-500 group-hover/btn:rotate-90 hover:cursor-pointer" 
-          strokeWidth={4} 
-        />
+  <p className="text-base font-bold text-orange-600 mb-3">
+    Rs {Number(i.price).toLocaleString()}
+  </p>
+
+  <div className="flex items-center gap-2">
+    <button className="flex items-center justify-center gap-1 flex-1 border border-gray-700 text-gray-700 text-[10px] font-medium py-2 rounded-lg hover:bg-orange-50 transition cursor-pointer">
+      <Bell size={14} />
+      Subscribe
+    </button>
+
+    {!cartitems ? (
+      <button
+        onClick={() => dispatch(setcartdata({ ...i, quantity: 1 }))}
+        className="flex items-center justify-center gap-1 flex-1 bg-orange-600 text-white text-xs font-medium py-2 rounded-lg hover: pointer-cursor transition hover:bg-orange-700 transition cursor-pointer"
+      >
+        <ShoppingCart size={14} />
+        Add to cart
       </button>
-    </div>
+    ) : (
+      <div className="flex items-center justify-between flex-1 bg-gray-100 rounded-lg p-1 h-[34px]">
+        <button
+          onClick={() => dispatch(substractquantity(i._id.toString()))}
+          className="bg-orange-600 text-white w-6 h-6 flex items-center justify-center rounded-md shadow-sm hover:bg-orange-700 transition active:scale-90 cursor-pointer"
+        >
+          <Minus size={12} strokeWidth={3} />
+        </button>
+
+        <span className="text-xs font-bold text-gray-800">
+          {cartitems.quantity}
+        </span>
+
+        <button
+          onClick={() => dispatch(addquantity(i._id.toString()))}
+          className="bg-orange-600 text-white w-6 h-6 flex items-center justify-center rounded-md shadow-sm hover:bg-orange-700 transition active:scale-90 cursor-pointer"
+        >
+          <Plus size={12} strokeWidth={3} />
+        </button>
+      </div>
+    )}
   </div>
 </div>
-    </>
-  )
+  );
 }
 
-export default GeroceryCart
+export default GeroceryCart;
