@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import 'leaflet/dist/leaflet.css';
 import Provider from "@/Provider";
 import ReduxUserProvider from "@/redux/ReduxUserProvider";
 import Userdatafromredux from "@/Userdatafromredux";

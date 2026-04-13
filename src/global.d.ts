@@ -2,6 +2,7 @@
 //connection ko globally declare kr rhy 
 
 import { Connection } from "mongoose"
+declare module '*.css';
 
 declare global{
     var mongoose:{

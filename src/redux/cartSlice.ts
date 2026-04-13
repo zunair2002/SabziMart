@@ -12,10 +12,16 @@ interface Igerocery {
 }
 
 interface CartSlice{
-   cartdata:Igerocery[];
+   cartdata:Igerocery[],
+   subtotal:number,
+   dileveryfee:number,
+   totalammount:number
 }
 const initialState:CartSlice = {
-   cartdata: []
+   cartdata: [],
+   subtotal: 0,
+   dileveryfee: 200,
+   totalammount: 200
 }
 
 const cartslice = createSlice({
@@ -25,6 +31,7 @@ const cartslice = createSlice({
     reducers:{
         setcartdata:(state,action:PayloadAction<Igerocery>)=>{
             state.cartdata.push(action.payload);
+            cartslice.caseReducers.calculatetotalamount(state);
         },
     //cart ki quantity manage kay liye reducer
        addquantity: (state,action:PayloadAction<string>) => {
@@ -32,6 +39,7 @@ const cartslice = createSlice({
         if (item) {
             item.quantity += 1;
             }
+            cartslice.caseReducers.calculatetotalamount(state);
         },
          substractquantity: (state,action:PayloadAction<string>) => {
         const item = state.cartdata.find(i=>String(i._id)===action.payload);
@@ -41,9 +49,19 @@ const cartslice = createSlice({
             else{
                state.cartdata = state.cartdata.filter(i=>String(i._id) !== action.payload)
             }
+            cartslice.caseReducers.calculatetotalamount(state);
+        },
+        removecart: (state,action:PayloadAction<string>) => {
+            state.cartdata = state.cartdata.filter(i=>String(i._id) !== action.payload)
+            cartslice.caseReducers.calculatetotalamount(state);
+        },
+        calculatetotalamount:(state)=>{
+            state.subtotal = state.cartdata.reduce((sum,item)=>sum + Number(item.price) * item.quantity,0)
+            state.dileveryfee = state.subtotal>1000?0:200
+            state.totalammount = state.subtotal + state.dileveryfee
         }
     }
 
 })
-export const {setcartdata,addquantity,substractquantity} = cartslice.actions;
+export const {setcartdata,addquantity,substractquantity,removecart} = cartslice.actions;
 export default cartslice.reducer;
