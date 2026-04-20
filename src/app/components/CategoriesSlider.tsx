@@ -1,103 +1,143 @@
 "use client";
+import React, { useRef } from "react";
 import {
-  Apple,
-  Milk,
-  Beef,
-  Croissant,
-  Coffee,
-  Cookie,
-  Package,
-  Snowflake,
-  Home,
-  HeartPulse,
-  Leaf,
-  PawPrint,
-  MoreHorizontal,
-  ShoppingCart,
   ChevronLeft,
   ChevronRight,
+  Apple,
+  Coffee,
+  Fish,
+  Beef,
+  Milk,
+  Cookie,
 } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
-import React, { useRef } from "react";
 
 function CategoriesSlider() {
   const all_categories = [
-    { id: 1, name: "Fruits & Veg", icon: <Apple className="text-green-500" /> },
-    { id: 2, name: "Dairy & Eggs", icon: <Milk className="text-blue-400" /> },
-    { id: 3, name: "Meat & Fish", icon: <Beef className="text-red-500" /> },
-    { id: 4, name: "Bakery", icon: <Croissant className="text-amber-500" /> },
-    { id: 5, name: "Drinks", icon: <Coffee className="text-orange-500" /> },
-    { id: 6, name: "Snacks", icon: <Cookie className="text-yellow-500" /> },
-    { id: 7, name: "Pantry", icon: <Package className="text-indigo-500" /> },
-    { id: 8, name: "Frozen", icon: <Snowflake className="text-cyan-400" /> },
-    { id: 9, name: "Household", icon: <Home className="text-gray-500" /> },
     {
-      id: 10,
-      name: "Personal Care",
-      icon: <HeartPulse className="text-pink-500" />,
+      id: 1,
+      name: "Fruits",
+      icon: <Apple />,
+      color: "bg-[#fce4ec]",
+      text: "text-[#c2185b]",
     },
-    { id: 11, name: "Organic", icon: <Leaf className="text-emerald-500" /> },
     {
-      id: 12,
-      name: "Pet Care",
-      icon: <PawPrint className="text-orange-400" />,
+      id: 2,
+      name: "Coffee",
+      icon: <Coffee />,
+      color: "bg-[#fdf2e9]",
+      text: "text-[#a0522d]",
+    },
+    {
+      id: 3,
+      name: "Fish",
+      icon: <Fish />,
+      color: "bg-[#e3f2fd]",
+      text: "text-[#0277bd]",
+    },
+    {
+      id: 4,
+      name: "Meat",
+      icon: <Beef />,
+      color: "bg-[#fce4ec]",
+      text: "text-[#c2185b]",
+    },
+    {
+      id: 5,
+      name: "Milk",
+      icon: <Milk />,
+      color: "bg-[#e3f2fd]",
+      text: "text-[#0277bd]",
+    },
+    {
+      id: 6,
+      name: "Bakery",
+      icon: <Cookie />,
+      color: "bg-[#fff8e1]",
+      text: "text-[#fbc02d]",
     },
   ];
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
+
   const scroll = (direction: "left" | "right") => {
-    const container = scrollRef.current;
-    if (!container) return;
-
-    const scrollAmount = direction === "left" ? -200 : 200;
-
-    container.scrollBy({
-      left: scrollAmount,
-      behavior: "smooth",
-    });
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const scrollAmount = clientWidth / 2;
+      const scrollTo =
+        direction === "left"
+          ? scrollLeft - scrollAmount
+          : scrollLeft + scrollAmount;
+      scrollRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
+    }
   };
+
   return (
-    <>
-      <div className="mx-auto w-[95%] rounded-xl p-4 mt-5 text-center">
-        <div className="mt-1">
-          <h2 className="font-semibold text-[35px] text-gray-900 mb-6 text-center inline-block">
-            Available Categories
-          </h2>
-          <div className="flex items-center">
+    <div className="w-full py-12 bg-white">
+      <div className="max-w-[1400px] mx-auto px-4 lg:px-8">
+        <div className="flex items-center justify-between mb-8">
+          <div className="relative">
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 uppercase">
+              SHOP BY <span className="text-[#ffbb38]">CATEGORY</span>
+            </h2>
+          </div>
+
+          <div className="flex gap-2">
             <button
-              className="w-7 h-7 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-orange-600 text-white shadow-md hover:bg-orange-700 transition-colors duration-300 cursor-pointer flex-shrink-0"
               onClick={() => scroll("left")}
+              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-lg bg-gray-100 text-gray-400 hover:bg-gray-200 transition-all cursor-pointer"
             >
-              <ChevronLeft size={16} className="md:w-5 md:h-5" />
+              <ChevronLeft size={20} />
             </button>
-
-            <div
-              className="flex gap-1.5 md:gap-3.5 px-1 md:px-2 mx-1.5 md:mx-6 py-1 flex-1 hide_scrolling overflow-x-auto"
-              ref={scrollRef}
-            >
-              {all_categories.map((i) => (
-                <div
-                  key={i.id}
-                  className="min-w-[75px] h-[75px] md:min-w-[130px] md:h-[130px] flex flex-col items-center justify-center border-[0.25px] border-gray-200 bg-white text-black text-[10px] md:text-sm font-medium rounded-lg md:rounded-xl shadow-sm md:shadow-md cursor-pointer transform transition-all duration-300 ease-in-out hover:scale-105 flex-shrink-0"
-                >
-                  <div className="scale-[0.65] md:scale-100 mb-0">{i.icon}</div>
-                  <span className="mt-0.5 md:mt-2 text-center px-1 leading-tight line-clamp-1">
-                    {i.name}
-                  </span>
-                </div>
-              ))}
-            </div>
-
             <button
-              className="w-7 h-7 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-orange-600 text-white shadow-md hover:bg-orange-700 transition-colors duration-300 cursor-pointer flex-shrink-0"
               onClick={() => scroll("right")}
+              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-lg bg-[#ffbb38] text-white shadow-sm hover:bg-[#eab308] transition-all cursor-pointer"
             >
-              <ChevronRight size={16} className="md:w-5 md:h-5" />
+              <ChevronRight size={20} />
             </button>
           </div>
         </div>
+
+        <div
+          className="flex gap-5 md:gap-6 pb-10 hide_scrolling overflow-x-auto scroll-smooth"
+          ref={scrollRef}
+        >
+          {all_categories.map((i) => (
+            <div
+              key={i.id}
+              className={`min-w-[260px] rounded-3xl md:min-w-[320px] ${i.color} p-7 md:p-8 flex items-center justify-between relative overflow-hidden group cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1`}
+            >
+              <div className="w-[60%] z-10 flex flex-col gap-2">
+                <h3
+                  className={`font-black text-xl md:text-2xl ${i.text} leading-tight`}
+                >
+                  {i.name}
+                </h3>
+                <p className="text-[10px] md:text-[11px] text-gray-500 font-bold leading-tight max-w-[130px] opacity-70">
+                  Fresh arrivals and premium {i.name} collection.
+                </p>
+                <button className="mt-4 w-fit bg-white text-gray-900 text-[9px] md:text-[10px] font-extrabold px-5 py-2 rounded-full shadow-sm hover:bg-gray-900 hover:text-white transition-all uppercase tracking-wider">
+                  View All
+                </button>
+              </div>
+
+              <div className="relative w-[35%] h-full flex items-center justify-end">
+                <div
+                  className={`${i.text} opacity-10 absolute -right-4 -bottom-4 scale-[4] md:scale-[5] rotate-35`}
+                >
+                  {i.icon}
+                </div>
+
+                <div
+                  className={`${i.text} mb-5 scale-[2.5] md:scale-[3.5] drop-shadow-2xl transition-transform duration-500 group-hover:scale-[3.8]`}
+                >
+                  {i.icon}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 

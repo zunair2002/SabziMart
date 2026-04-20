@@ -1,10 +1,19 @@
 "use client"
-import React from 'react'
+import React, { useEffect } from 'react'
 import { motion } from "motion/react"
+import { getsocket } from '@/config/socketio'
 type proptype={
   nextstep:(n:number)=> void
 }
 function Welcome({nextstep}:proptype) {
+  useEffect(() => {
+  const socket = getsocket();
+  console.log("Socket connected");
+  return () => {
+    console.log("Page se bahar gaye, socket disconnect kar rahe hain");
+    socket.disconnect(); 
+  };
+}, []);
   return (
     <div className="h-screen font-sans flex items-center justify-center">
   <section className="text-center px-4 mt-1">

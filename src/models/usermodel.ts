@@ -9,6 +9,15 @@ interface Iuser{
     mobile?:string,
     image?:string,
     role:"user"|"admin"|"rider"
+    location: {
+    type: string;
+    enum: string[];
+    default: string;
+        },
+    coordinates: {
+    type: Number[];
+    default: number[];
+}
 }
 const userschema = new mongoose.Schema<Iuser>({
 name:{
@@ -36,6 +45,15 @@ role:{
 image:{
     type:String,
 },
+location:{
+    type:String,
+    enum:['point'],
+    default:'point'
+},
+coordinates:{
+    type:[Number],
+    default:[0,0]
+}
 
 },{timestamps:true})
 

@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 
-const MONGOOSE_URL = 'mongodb+srv://zunairshahid02_db_user:UXQkjGxziQeFYOwU@cluster0.i2q34ao.mongodb.net/GEROCERYDB';
-console.log("--- DEBUG: MongoDB URL is:", MONGOOSE_URL ? "FOUND (check format)" : "NOT FOUND (undefined)");
-
+const MONGOOSE_URL = process.env.MONGOOSE_URL;
 if(!MONGOOSE_URL){
 throw new Error("DB is not connected!");
 }
@@ -18,14 +16,10 @@ if(!cache.promise){
 }
 const connectDB = async()=>{
     if(cache.conn){
-                console.log("--- DEBUG: Using cached connection");
-
         return cache.conn
     }
     try{
         const conn = await cache.promise
-                    console.log("--- DEBUG: Connected Successfully!");
-
         return conn
     }catch(error){
         console.log(error)
@@ -36,7 +30,6 @@ const connectDB = async()=>{
         return cache.conn;
     } catch (error) {
         cache.promise = null; // Error aye to promise reset karein
-        console.log("--- DEBUG: Connection Error Details:", error);
         throw error;
     }
 }

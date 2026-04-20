@@ -40,122 +40,144 @@ function RegisterForm({ prevstep }: proptype) {
     }
   }
   return (
-    <div className="h-screen font-sans relative">
-      <div
-        className="absolute top-6 left-6 flex items-center gap-1 cursor-pointer text-green-600"
-        onClick={() => {
-          prevstep(1);
-        }}
-      >
-        <ArrowLeft size={15} />
-        <span className="font-medium mb-[2px]">Back</span>
-      </div>
+   <div className="h-screen font-sans bg-[#F1F3F4] relative flex items-center justify-center">
 
-      <div className="h-full flex items-center justify-center">
-        <div className="w-full max-w-sm p-9 rounded-xl shadow-xl bg-white">
-          <h2 className="text-[30px] font-bold text-center text-orange-500">
-            Create An Account
-          </h2>
+  {/* Back */}
+  <div
+    className="absolute top-6 left-6 flex items-center gap-1 cursor-pointer text-[#0d4e46] hover:opacity-80"
+    onClick={() => prevstep(1)}
+  >
+    <ArrowLeft size={14} />
+    <span className="text-sm font-medium">Back</span>
+  </div>
 
-          <div className="flex items-center justify-center gap-1 mt-1 mb-6">
-            <Leaf size={12} className="text-green-600 mt-1" />
-            <p className="text-sm text-gray-400">connect with us</p>
-          </div>
-          <form onSubmit={registerhandler}>
-          <div className="space-y-4">
-            <div className="flex items-center border-[0.25px] border-gray-300 rounded-[8px] px-3 border-[0.25px] border-gray-300 transition-all duration-300 ease-in-out focus-within:border-gray-400 focus-within:ring-[0.25px] focus-within:ring-gray-200">
-              <User className="text-gray-400" size={18} />
-              <input
-                type="text"
-                placeholder="Name"
-                className="w-full px-3 py-2 text-gray-700 placeholder-gray-500 focus:outline-none"
-                onChange={(e) => setname(e.target.value)}
-              />
-            </div>
+  <div className="w-full max-w-sm p-8 rounded-2xl shadow-lg bg-white border border-gray-100">
 
-            <div className="flex items-center border-[0.25px] border-gray-300 rounded-[8px] px-3 border-[0.25px] border-gray-300 transition-all duration-300 ease-in-out focus-within:border-gray-400 focus-within:ring-[0.25px] focus-within:ring-gray-200">
-              <Mail className="text-gray-400" size={18} />
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none"
-                onChange={(e) => setemail(e.target.value)}
-              />
-            </div>
+    <h2 className="text-[26px] font-bold text-center text-[#0d4e46]">
+      Create An Account
+    </h2>
 
-            <div className="flex items-center border-[0.25px] border-gray-300 rounded-[8px] px-3 border-[0.25px] border-gray-300 transition-all duration-300 ease-in-out focus-within:border-gray-400 focus-within:ring-[0.25px] focus-within:ring-gray-200">
-              <Lock className="text-gray-400" size={18} />
-
-              <input
-                type={showpass ? "text" : "password"}
-                placeholder="Password"
-                className="w-full px-3 py-2 text-gray-700 placeholder-gray-400 focus:outline-none"
-                onChange={(e) => setpassword(e.target.value)}
-              />
-              {showpass ? (
-                <EyeOff
-                  className="text-gray-400 -mt-1 cursor-pointer"
-                  onClick={() => setshowpass(false)}
-                  size={18}
-                />
-              ) : (
-                <Eye
-                  className="text-gray-400 -mt-1 cursor-pointer"
-                  onClick={() => setshowpass(true)}
-                  size={18}
-                />
-              )}
-            </div>
-
-{(() => {
-  const isValid = name !== "" && email !== "" && password !== "";
-  const validation = isValid && !loading;
-
-  return (
-    <button
-      disabled={!validation}
-      className={`w-full py-2 rounded-[8px] font-medium transition flex justify-center items-center gap-2 ${
-        validation
-          ? "bg-gray-400 text-white hover:bg-gray-500 cursor-pointer"
-          : "bg-gray-300 text-gray-500 cursor-not-allowed"
-      }`}
-    >
-      {loading ? (
-        <>
-          <Loader2 className="animate-spin h-5 w-5" />
-          Loading...
-        </>
-      ) : (
-        "Create Account"
-      )}
-    </button>
-  );
-})()}
-          </div>
-          <div className="flex items-center my-6">
-            <div className="flex-grow h-px bg-gray-300"></div>
-            <span className="px-3 text-sm text-gray-400">OR</span>
-            <div className="flex-grow h-px bg-gray-300"></div>
-          </div>
-
-          <div className="w-full border border-gray-100 bg-gray-400 py-2 rounded-[8px] flex items-center justify-center cursor-pointer gap-2 hover:bg-gray-500 transition" onClick={()=>signIn('google',{callbackUrl:'/'})}>
-            <img
-              src="https://www.svgrepo.com/show/475656/google-color.svg"
-              className="w-4 h-4"
-            />
-            <span className="text-sm font-medium text-white">
-              Continue with Google
-            </span>
-          </div>
-          <p className="text-sm text-gray-500 gap-1 flex items-center justify-center mt-3 cursor-pointer" onClick={()=>router.push('/login')}>
-            Already have an account?
-            <LogIn className="text-orange-600 mt-[1px]" size={15} />
-            <span className="text-orange-600">Sign in</span>
-          </p>
-      </form>
-        </div>
-      </div>
+    <div className="flex items-center justify-center gap-1 mt-1 mb-6">
+      <Leaf size={12} className="text-[#0d4e46]" />
+      <p className="text-sm text-gray-400">connect with us</p>
     </div>
+
+    <form onSubmit={registerhandler}>
+
+      <div className="space-y-4">
+
+        {/* Name */}
+        <div className="flex items-center border border-gray-200 rounded-lg px-3 transition focus-within:border-[#0d4e46] focus-within:ring-1 focus-within:ring-[#0d4e46]/20">
+          <User className="text-gray-400" size={16} />
+          <input
+            type="text"
+            placeholder="Name"
+            className="w-full px-3 py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none"
+            onChange={(e) => setname(e.target.value)}
+          />
+        </div>
+
+        {/* Email */}
+        <div className="flex items-center border border-gray-200 rounded-lg px-3 transition focus-within:border-[#0d4e46] focus-within:ring-1 focus-within:ring-[#0d4e46]/20">
+          <Mail className="text-gray-400" size={16} />
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full px-3 py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none"
+            onChange={(e) => setemail(e.target.value)}
+          />
+        </div>
+
+        {/* Password */}
+        <div className="flex items-center border border-gray-200 rounded-lg px-3 transition focus-within:border-[#0d4e46] focus-within:ring-1 focus-within:ring-[#0d4e46]/20">
+          <Lock className="text-gray-400" size={16} />
+
+          <input
+            type={showpass ? "text" : "password"}
+            placeholder="Password"
+            className="w-full px-3 py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none"
+            onChange={(e) => setpassword(e.target.value)}
+          />
+
+          {showpass ? (
+            <EyeOff
+              className="text-gray-400 cursor-pointer"
+              onClick={() => setshowpass(false)}
+              size={16}
+            />
+          ) : (
+            <Eye
+              className="text-gray-400 cursor-pointer"
+              onClick={() => setshowpass(true)}
+              size={16}
+            />
+          )}
+        </div>
+
+        {/* Button */}
+        {(() => {
+          const isValid = name !== "" && email !== "" && password !== "";
+          const validation = isValid && !loading;
+
+          return (
+            <button
+              disabled={!validation}
+              className={`w-full py-2.5 rounded-lg text-sm font-semibold transition flex justify-center items-center gap-2 ${
+                validation
+                  ? "bg-[#0d4e46] text-white hover:bg-[#083631]"
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              }`}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="animate-spin h-4 w-4" />
+                  Loading...
+                </>
+              ) : (
+                "Create Account"
+              )}
+            </button>
+          );
+        })()}
+
+      </div>
+
+      {/* Divider */}
+      <div className="flex items-center my-6">
+        <div className="flex-grow h-px bg-gray-200"></div>
+        <span className="px-3 text-xs text-gray-400 font-medium">OR</span>
+        <div className="flex-grow h-px bg-gray-200"></div>
+      </div>
+
+      {/* Google */}
+      <div
+        className="w-full border border-gray-200 bg-[#0d4e46] py-2.5 rounded-lg flex items-center justify-center cursor-pointer gap-2 hover:bg-[#083631] transition"
+        onClick={() => signIn('google', { callbackUrl: '/' })}
+      >
+        <img
+          src="https://www.svgrepo.com/show/475656/google-color.svg"
+          className="w-4 h-4"
+        />
+        <span className="text-sm font-medium text-white">
+          Continue with Google
+        </span>
+      </div>
+
+      {/* Login */}
+      <p
+        className="text-sm text-gray-500 flex items-center justify-center mt-4 gap-1 cursor-pointer"
+        onClick={() => router.push('/login')}
+      >
+        Already have an account?
+        <span className="text-[#0d4e46] font-semibold">Sign in</span>
+        <LogIn className="text-[#0d4e46]" size={14} />
+      </p>
+
+    </form>
+
+  </div>
+
+</div>
   );
 }
 

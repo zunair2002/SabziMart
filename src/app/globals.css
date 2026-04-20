@@ -4,7 +4,7 @@ body{
 height: 100%;
   margin: 0;
   padding: 0;
-background: #dfdfdfef;
+  background:white;
 }
 .hide_scrolling{
   -ms-overflow-style: none !important;

@@ -14,7 +14,7 @@ interface IOrder{
             quantity:number
         }
     ],
-    totalamount:number,
+    totalammount:number,
     paymentmethod:'cod'|'online',
     adress:{
     name: string,
@@ -26,30 +26,41 @@ interface IOrder{
     latitude:number,
     longitude:number
     },
+    assignment:mongoose.Types.ObjectId,
+    deliveryrider:mongoose.Types.ObjectId,
+    isPaid:boolean,
     status:'pending'|'out of delivery'|'deliverd',
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 const orderschema = new mongoose.Schema<IOrder>({
 user:{
     type:mongoose.Types.ObjectId,
-    ref:'user',
+    ref:'User',
     required:true
     },
-items:{
-    gerocery:mongoose.Types.ObjectId,
+items:[
+    {
+    gerocery: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Gerocery', 
+        required: true 
+      },
     name: String,
     category: String,
     price: String,
     unit: String,
     image: String,
     quantity:Number
-},
+    }
+],
 paymentmethod:{
     type:String,
     enum:['cod','online'],
     default:'cod'
 },
-totalamount:{
+totalammount:{
     type:Number
 },
 adress:{
@@ -61,6 +72,19 @@ adress:{
     fulllocation: String,
     latitude:Number,
     longitude:Number
+},
+assignment:{
+    type:mongoose.Types.ObjectId,
+    ref:'OrderAssignment',
+    default:null
+},
+deliveryrider:{
+    type:mongoose.Types.ObjectId,
+    ref:'User'
+},
+isPaid:{
+    type:Boolean,
+    default:false
 },
 status:{
     type:String,

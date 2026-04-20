@@ -16,16 +16,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
-        <Provider>
-          <ReduxUserProvider>
-            <Userdatafromredux/>
+   <html lang="en">
+  <body> 
+    <Provider>
+      <ReduxUserProvider>
+        <Userdatafromredux />
+          <main className="bg-white max-w-[1400px] mx-auto w-full px-4 sm:px-6 lg:px-8 min-h-screen">
           {children}
-          </ReduxUserProvider>
-        </Provider>
-      
-      </body>
-    </html>
+        </main>
+
+      </ReduxUserProvider>
+    </Provider>
+  </body>
+</html>
   );
 }

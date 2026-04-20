@@ -4,6 +4,7 @@ import CategoriesSlider from "./CategoriesSlider";
 import GeroceryCart from "./GeroceryCart";
 import connectDB from "@/config/db";
 import Gerocery from "@/models/gerocerymodel";
+import Testimonial from "./Testimonial";
 
 async function Userdashboard() {
   await connectDB();
@@ -11,22 +12,26 @@ async function Userdashboard() {
   const plaingerocery = JSON.parse(JSON.stringify(gerocery_data));
 
   return (
-    <div>
-      <UserHomepage />
-      <CategoriesSlider />
-      <div className="w-[95%] mx-auto my-8 text-center relative">
-        <h2 className="font-semibold text-[30px] text-gray-800 mb-6 rounded-full text-center inline-block p-1.5 px-8">
-          Grocery Items
-        </h2>
-      </div>
-  <div className="w-[96%] max-w-[1600px] mx-auto mt-8 border-[0.25px] text-gray-300 rounded-lg">
-  <div className="grid gap-4 sm:gap-6 md:gap-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-3 py-3">
+    <div className="min-h-screen pb-20">
+  <UserHomepage />
+  <CategoriesSlider />
+
+  <div className="w-[95%] mx-auto mt-1 mb-8 text-left relative">
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 uppercase">
+              AVALAIBLE<span className="text-[#ffbb38]"> CATEGORY</span>
+            </h2>
+  </div>
+<div className="w-full max-w-[1400px] mx-auto px-4 md:px-6">
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4 py-8">
     {plaingerocery.map((i: any) => (
       <GeroceryCart key={i._id} i={i} />
     ))}
   </div>
 </div>
-    </div>
+<div>
+<Testimonial/>
+</div>
+</div>
   );
 }
 
