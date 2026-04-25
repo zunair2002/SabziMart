@@ -1,3 +1,4 @@
+import commonemitHandler from "@/config/commonemit";
 import connectDB from "@/config/db";
 import Order from "@/models/ordermodel";
 import User from "@/models/usermodel";
@@ -28,6 +29,7 @@ export async function POST(req:NextRequest){
                 totalammount,
                 adress
             })
+            await commonemitHandler('neworders',newOrder);
             return NextResponse.json({
             newOrder,
             status:200

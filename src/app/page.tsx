@@ -8,6 +8,7 @@ import { json } from "stream/consumers";
 import Userdashboard from "./components/Userdashboard";
 import Admindashboard from "./components/Admindashboard";
 import Riderdashboard from "./components/Riderdashboard";
+import LocationUpdation from "./components/LocationUpdation";
 
 async function Home() {
   await connectDB();
@@ -24,6 +25,7 @@ async function Home() {
   return (
     <>
       <Navbar user={plaintext} />
+      <LocationUpdation userId={plaintext._id}/>
       {user.role === "user" ? (
         <Userdashboard />
       ) : user.role === "admin" ? (

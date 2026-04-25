@@ -40,25 +40,27 @@ function RegisterForm({ prevstep }: proptype) {
     }
   }
   return (
-   <div className="h-screen font-sans bg-[#F1F3F4] relative flex items-center justify-center">
+   <div className="h-screen font-sans bg-white relative flex items-center justify-center">
 
-  {/* Back */}
+  <h1 className="absolute top-10 text-3xl md:text-4xl font-black text-gray-900 tracking-tight mt-5">
+    Sabzi<span className="text-yellow-500"> Mart</span>
+  </h1>
   <div
-    className="absolute top-6 left-6 flex items-center gap-1 cursor-pointer text-[#0d4e46] hover:opacity-80"
+    className="absolute top-6 left-6 flex items-center gap-1 cursor-pointer text-yellow-500 hover:text-yellow-600"
     onClick={() => prevstep(1)}
   >
     <ArrowLeft size={14} />
     <span className="text-sm font-medium">Back</span>
   </div>
 
-  <div className="w-full max-w-sm p-8 rounded-2xl shadow-lg bg-white border border-gray-100">
+  <div className="w-full max-w-sm p-8 rounded-2xl shadow-xl bg-white border border-gray-100 mt-10">
 
-    <h2 className="text-[26px] font-bold text-center text-[#0d4e46]">
+    <h2 className="text-[18px] font-bold text-center text-gray-900">
       Create An Account
     </h2>
 
     <div className="flex items-center justify-center gap-1 mt-1 mb-6">
-      <Leaf size={12} className="text-[#0d4e46]" />
+      <Leaf size={12} className="text-yellow-500" />
       <p className="text-sm text-gray-400">connect with us</p>
     </div>
 
@@ -66,8 +68,7 @@ function RegisterForm({ prevstep }: proptype) {
 
       <div className="space-y-4">
 
-        {/* Name */}
-        <div className="flex items-center border border-gray-200 rounded-lg px-3 transition focus-within:border-[#0d4e46] focus-within:ring-1 focus-within:ring-[#0d4e46]/20">
+        <div className="flex items-center border border-gray-200 rounded-lg px-3 transition focus-within:border-gray-900 focus-within:ring-1 focus-within:ring-gray-200">
           <User className="text-gray-400" size={16} />
           <input
             type="text"
@@ -77,8 +78,7 @@ function RegisterForm({ prevstep }: proptype) {
           />
         </div>
 
-        {/* Email */}
-        <div className="flex items-center border border-gray-200 rounded-lg px-3 transition focus-within:border-[#0d4e46] focus-within:ring-1 focus-within:ring-[#0d4e46]/20">
+        <div className="flex items-center border border-gray-200 rounded-lg px-3 transition focus-within:border-gray-900 focus-within:ring-1 focus-within:ring-gray-200">
           <Mail className="text-gray-400" size={16} />
           <input
             type="email"
@@ -88,8 +88,7 @@ function RegisterForm({ prevstep }: proptype) {
           />
         </div>
 
-        {/* Password */}
-        <div className="flex items-center border border-gray-200 rounded-lg px-3 transition focus-within:border-[#0d4e46] focus-within:ring-1 focus-within:ring-[#0d4e46]/20">
+        <div className="flex items-center border border-gray-200 rounded-lg px-3 transition focus-within:border-gray-900 focus-within:ring-1 focus-within:ring-gray-200">
           <Lock className="text-gray-400" size={16} />
 
           <input
@@ -114,7 +113,6 @@ function RegisterForm({ prevstep }: proptype) {
           )}
         </div>
 
-        {/* Button */}
         {(() => {
           const isValid = name !== "" && email !== "" && password !== "";
           const validation = isValid && !loading;
@@ -124,7 +122,7 @@ function RegisterForm({ prevstep }: proptype) {
               disabled={!validation}
               className={`w-full py-2.5 rounded-lg text-sm font-semibold transition flex justify-center items-center gap-2 ${
                 validation
-                  ? "bg-[#0d4e46] text-white hover:bg-[#083631]"
+                  ? "bg-gray-900 text-white hover:bg-black"
                   : "bg-gray-200 text-gray-400 cursor-not-allowed"
               }`}
             >
@@ -142,41 +140,37 @@ function RegisterForm({ prevstep }: proptype) {
 
       </div>
 
-      {/* Divider */}
       <div className="flex items-center my-6">
         <div className="flex-grow h-px bg-gray-200"></div>
         <span className="px-3 text-xs text-gray-400 font-medium">OR</span>
         <div className="flex-grow h-px bg-gray-200"></div>
       </div>
 
-      {/* Google */}
       <div
-        className="w-full border border-gray-200 bg-[#0d4e46] py-2.5 rounded-lg flex items-center justify-center cursor-pointer gap-2 hover:bg-[#083631] transition"
+        className="w-full border border-gray-200 bg-white py-2.5 rounded-lg flex items-center justify-center cursor-pointer gap-2 hover:bg-gray-50 transition"
         onClick={() => signIn('google', { callbackUrl: '/' })}
       >
         <img
           src="https://www.svgrepo.com/show/475656/google-color.svg"
           className="w-4 h-4"
         />
-        <span className="text-sm font-medium text-white">
+        <span className="text-sm font-medium text-gray-700">
           Continue with Google
         </span>
       </div>
 
-      {/* Login */}
       <p
         className="text-sm text-gray-500 flex items-center justify-center mt-4 gap-1 cursor-pointer"
         onClick={() => router.push('/login')}
       >
         Already have an account?
-        <span className="text-[#0d4e46] font-semibold">Sign in</span>
-        <LogIn className="text-[#0d4e46]" size={14} />
+        <span className="text-yellow-500 font-semibold">Sign in</span>
+        <LogIn className="text-yellow-500" size={14} />
       </p>
 
     </form>
 
   </div>
-
 </div>
   );
 }

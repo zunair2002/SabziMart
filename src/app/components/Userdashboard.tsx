@@ -5,6 +5,7 @@ import GeroceryCart from "./GeroceryCart";
 import connectDB from "@/config/db";
 import Gerocery from "@/models/gerocerymodel";
 import Testimonial from "./Testimonial";
+import Footer from "./Footer";
 
 async function Userdashboard() {
   await connectDB();
@@ -30,6 +31,7 @@ async function Userdashboard() {
 </div>
 <div>
 <Testimonial/>
+<Footer/>
 </div>
 </div>
   );

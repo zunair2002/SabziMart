@@ -37,128 +37,103 @@ function OrderCart({order}:{order:IOrder}) {
   const [hide,sethide] = useState(false);
 
   return (
-    <div className="bg-[#e5f5e0] shadow-xl rounded-2xl p-5 space-y-4 border border-gray-100">
-
-  <div className="flex justify-between items-center border-b border-gray-100 pb-3">
-
-    <div>
-      <h3 className="text-[22px] font-bold text-gray-900">
-        Order <span className="text-[#0d4e46]">#{order?._id?.toString().slice(-6)}</span>
-      </h3>
-
-      <p className="text-sm text-gray-600 mt-1">
-        {new Date(order.createdAt).toLocaleString()}
-      </p>
+   <div className="bg-white shadow-sm rounded-2xl overflow-hidden border border-gray-100 font-sans">
+  <div className="bg-gray-200 p-6 px-8 flex flex-wrap items-center justify-between gap-y-6">
+    <div className="flex flex-wrap gap-x-12 gap-y-4">
+      <div>
+        <p className="text-[10px] font-bold text-gray-700 uppercase tracking-tight opacity-80">Order number</p>
+        <p className="text-sm font-black text-gray-900">#{order?._id?.toString().slice(-6).toUpperCase()}</p>
+      </div>
+      <div>
+        <p className="text-[10px] font-bold text-gray-700 uppercase tracking-tight opacity-80">Chef / Grocery Seller</p>
+        <p className="text-sm font-black text-gray-900">SabziMart Store</p>
+      </div>
+      <div>
+        <p className="text-[10px] font-bold text-gray-700 uppercase tracking-tight opacity-80">Transit Type</p>
+        <p className="text-sm font-black text-gray-900 uppercase">{order.paymentmethod === "cod" ? "Pickup/COD" : "Online/Delivery"}</p>
+      </div>
+      <div>
+        <p className="text-[10px] font-bold text-gray-700 uppercase tracking-tight opacity-80">Scheduled for</p>
+        <p className="text-sm font-black text-gray-900">
+          {new Date(order.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}, {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        </p>
+      </div>
     </div>
 
-    <div className="flex gap-2">
-      <span
-        className={`px-3 py-1 text-[10px] rounded-full font-medium ${
-          order.isPaid ? "bg-green-100 text-green-600" : "bg-[#aa0000] text-white"
-        }`}
-      >
+    <div className="flex items-center gap-3">
+      <span className={`px-2 py-1 text-[8px] rounded-md font-bold uppercase ${order.isPaid ? "bg-green-500 text-white" : "bg-red-600 text-white"}`}>
         {order.isPaid ? "Paid" : "Unpaid"}
       </span>
+      <button 
+        onClick={() => sethide((prev) => !prev)}
+className="text-gray-800 px-5 text-[15px] font-bold flex items-center gap-1 transition-all duration-300 group"
+>
+        {hide ? "Hide Details" : "Leave Review"} <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+      </button>
     </div>
-
   </div>
 
-  <div className="space-y-2">
-
-    <div className="flex items-center gap-2 text-xs text-gray-600 font-bold">
-      {order.paymentmethod === "cod" ? (
-        <>
-          <Truck size={15} className="text-[#0d4e46] font-bold" />
-          <span> Cash on Delivery</span>
-        </>
-      ) : (
-        <>
-          <CreditCard size={15} className="text-[#0d4e46] font-bold" />
-          <span> Online Payment</span>
-        </>
-      )}
-    </div>
-
-    <div className="flex items-center gap-2 text-xs text-gray-600 font-bold">
-      <MapPin size={15} className="text-[#0d4e46]" />
-      <span> {order.adress.city}, {order.adress.state}</span>
-    </div>
-
-  </div>
-
-  <div className="flex items-center justify-between">
-
-    <span className="text-xs font-medium text-gray-700">
-      {hide ? "Hide items" : `View ${order.items.length} items`}
-    </span>
-
-    <button
-      onClick={() => sethide((prev) => !prev)}
-      className="p-2 rounded-full bg-[#0d4e46] text-white hover:bg-[#083631] transition"
-    >
-      {hide ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-    </button>
-
-  </div>
-{hide && (
-  <div className="bg-[#d2e1cf] rounded-xl p-3 space-y-2 border border-gray-100">
-
-    {order.items.map((item, index) => (
-      <div
-        key={index}
-        className="flex items-center justify-between bg-[#f7f7f7] p-3 rounded-xl border border-gray-100 hover:shadow-sm transition"
-      >
-
-        <div className="flex items-center gap-3">
-
-          <div className="w-11 h-11 rounded-md overflow-hidden bg-gray-100 flex-shrink-0">
-            <img
-              src={item.image}
-              alt={item.name}
-              className="w-full h-full object-cover"
-            />
+  {hide && (
+    <div className="p-8 space-y-8">
+      {order.items.map((item, index) => (
+        <div key={index} className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="flex items-center gap-6 flex-1">
+            <div className="w-25 h-20 rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 p-2 shadow-sm">
+              <img src={item.image} alt={item.name} className="w-full h-full object-contain" />
+            </div>
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500 border-2 border-white shadow-sm"></span>
+                <h4 className="font-bold text-gray-800 text-sm">{item.name}</h4>
+              </div>
+              <p className="text-sm text-gray-400 font-medium ml-4.5">Rs {item.price} per unit</p>
+            </div>
           </div>
 
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold text-gray-800 line-clamp-1">
-              {item.name}
-            </span>
-
-            <span className="text-[11px] text-gray-400 font-medium">
-              Quantity: {item.quantity}
-            </span>
+          <div className="flex items-center justify-between md:justify-end md:gap-24 flex-1">
+            <div className="text-gray-400 font-bold text-base">
+              x {item.quantity}
+            </div>
+            <div className="text-gray-700 font-black text-md min-w-[100px] text-right">
+              Rs {Number(item.price) * item.quantity}
+            </div>
           </div>
-
         </div>
+      ))}
+    </div>
+  )}
 
-        <div className="text-sm font-bold text-[#0d4e46]">
-          Rs {Number(item.price).toLocaleString()}
-        </div>
-
-      </div>
-    ))}
-
+  <div className="px-4 py-4 border-t border-gray-50 flex items-center justify-between">
+    <div className="flex items-center gap-4">
+      <div className={`px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest border transition-all duration-300 ${
+  order.status === "pending"
+    ? "bg-yellow-50 text-yellow-600 border-yellow-100"
+    : order.status === "out of delivery"
+    ? "bg-blue-50 text-blue-600 border-blue-100"
+    : "bg-green-50 text-green-600 border-green-100"
+}`}>
+  <div className="flex items-center gap-2">
+    <span className={`w-1.5 h-1.5 rounded-full ${
+      order.status === "pending" 
+        ? "bg-yellow-500" 
+        : order.status === "out of delivery" 
+        ? "bg-blue-500" 
+        : "bg-green-500"
+    }`}></span>
+    {order.status}
   </div>
-)}
-
-  <div className="flex items-center justify-between bg-gray-50 p-3 rounded-xl border border-gray-100">
-    <div className="flex items-center gap-2 text-xs text-gray-600">
-  <div className="w-8 h-8 flex items-center justify-center">
-    <Truck size={18} className="text-[#0d4e46]" />
-  </div>
-
-  <span className="font-medium text-[15px]">
-    Delivery: <span className="text-[#0d4e46] font-semibold">{order.status}</span>
-  </span>
-
 </div>
-
-    <div className="text-sm font-bold text-gray-800">
-      Rs {Number(order.totalammount).toLocaleString()}
+      <div className="hidden md:flex items-center gap-1 text-gray-400 font-bold text-[11px] ml-4">
+        <MapPin size={14} className='text-gray-400' /> {order.adress.city}
+      </div>
     </div>
 
+    <div className="flex items-center gap-6">
+      <span className="text-md font-black text-gray-900">
+        Rs {Number(order.totalammount).toLocaleString()}
+      </span>
+    </div>
   </div>
-
 </div>
   )
 }

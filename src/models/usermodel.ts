@@ -10,14 +10,11 @@ interface Iuser{
     image?:string,
     role:"user"|"admin"|"rider"
     location: {
-    type: string;
-    enum: string[];
-    default: string;
-        },
-    coordinates: {
-    type: Number[];
-    default: number[];
-}
+        type: string;
+        coordinates: number[];
+    };
+    socketid:string,
+    isOnlinestatus:boolean,
 }
 const userschema = new mongoose.Schema<Iuser>({
 name:{
@@ -45,17 +42,27 @@ role:{
 image:{
     type:String,
 },
-location:{
+location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            default: 'Point'
+        },
+        coordinates: {
+            type: [Number],
+            default: [0, 0]
+        }
+    },
+socketid:{
     type:String,
-    enum:['point'],
-    default:'point'
+    default:null
 },
-coordinates:{
-    type:[Number],
-    default:[0,0]
+isOnlinestatus:{
+    type:Boolean,
+    default:false
 }
-
 },{timestamps:true})
 
+userschema.index({ location: '2dsphere' });
 const User = mongoose.models.User || mongoose.model("User",userschema)
 export default User

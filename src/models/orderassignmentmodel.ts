@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface IOrderAssignment{
+export interface IOrderAssignment{
 _id?:mongoose.Types.ObjectId,
 order:mongoose.Types.ObjectId,
 brodcasting:mongoose.Types.ObjectId[],
@@ -34,5 +34,5 @@ const orderdeliveryschema = new mongoose.Schema<IOrderAssignment>({
     },
 },{timestamps:true})
 
-const OrderAssignment = mongoose.models.Order || mongoose.model('OrderAssignment',orderdeliveryschema);
+const OrderAssignment = mongoose.models.OrderAssignment || mongoose.model('OrderAssignment',orderdeliveryschema);
 export default OrderAssignment;
