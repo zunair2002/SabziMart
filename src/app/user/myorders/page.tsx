@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import mongoose from "mongoose";
 import OrderCart from "@/app/components/OrderCart";
+import { getsocket } from "@/config/socketio";
 interface IOrder {
   _id?: mongoose.Types.ObjectId;
   user?: mongoose.Types.ObjectId;
@@ -38,26 +39,44 @@ interface IOrder {
 function Myorders() {
   const [orders, setOrders] = useState<IOrder[]>([]);
   const [loading, setLoading] = useState(true);
+useEffect(() => {
+  const socket = getsocket();
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        setLoading(true);
+  // 1. Socket Listener (Structure fix: data.orderid aur partial update)
+  const handleStatusUpdate = (data: { orderid: string; status: IOrder['status'] }) => {
+    console.log('Server se status update mila:', data);
+    
+    setOrders(currentOrders =>
+      currentOrders.map(order => 
+        // Backend se 'orderid' aa raha hai, isliye data.orderid check karein
+        order._id?.toString() === data.orderid.toString() 
+          ? { ...order, status: data.status } // Sirf status badlein, baki details (items, address) wahi rahein
+          : order
+      )
+    );
+  };
 
-        const res = await fetch("/api/user/myorders");
-        const data = await res.json();
-        setOrders(data?.orders);
-      } catch (error) {
-        setLoading(false);
+  socket.on('updatestatus', handleStatusUpdate);
 
-        console.error("Error fetching orders:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("/api/user/myorders");
+      const data = await res.json();
+      setOrders(data?.orders || []);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchOrders();
-  }, []);
+  fetchOrders();
+
+  return () => {
+    socket.off('updatestatus', handleStatusUpdate);
+  };
+}, []);
 
   return (
    <div className="min-h-screen bg-[#fdfdfd] font-sans py-10 px-4 md:px-10">

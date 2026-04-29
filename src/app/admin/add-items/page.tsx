@@ -86,142 +86,151 @@ function Additems() {
     setfrontend_image(URL.createObjectURL(file));
   };
   return (
-    <div className="min-h-screen bg-[#F1F3F4] font-sans flex flex-col lg:overflow-hidden">
-  <main className="flex-1 flex justify-center items-center px-4 pb-6">
-    <div className="w-full max-w-2xl">
-      <Link
-        href="/"
-className="group inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-[#0d4e46] text-white text-xs font-bold shadow-md hover:bg-[#083631] hover:text-gray-400 transition-all duration-300 active:scale-95"
->
-        <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-        Back
-      </Link>
+ <div className="min-h-screen bg-white font-sans p-4 md:p-8">
+  <div className="max-w-[1400px] mx-auto">
+    {/* Back Button matching the reference style */}
+    <Link
+      href="/"
+      className="inline-flex items-center gap-2 text-sm font-bold text-gray-900 hover:text-yellow-500 transition-colors mb-8 group"
+    >
+      <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+      Continue Shopping
+    </Link>
 
-      <div className="bg-white shadow-xl rounded-[2rem] p-6 md:p-10 border border-white">
-        <div className="text-center mb-6">
-          <h1 className="flex items-center justify-center gap-2 text-2xl font-black text-gray-900 tracking-tighter uppercase leading-none mb-1">
-            <PlusCircle className="w-5 h-5 text-[#0d4e46]" />
-            <span>
-              Add <span className="text-[#0d4e46]">Grocery</span>
-            </span>
-          </h1>
-          <div className="w-10 h-1 bg-[#BEF383] mx-auto mb-2 rounded-full"></div>
-          <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">
-            Update your inventory details
-          </p>
-        </div>
+    {/* Header Section matching reference image typography */}
+    <div className="mb-10">
+      <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+        Add <span className="text-yellow-500">Grocery</span>
+      </h1>
+      <p className="text-gray-500 text-sm mt-1">
+        Review and update your premium grocery inventory selection
+      </p>
+    </div>
 
-        <form className="space-y-4" onSubmit={handle_save_records}>
-          <div className="space-y-1">
-            <label className="block text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">
-              Grocery Name<span className="text-red-500 pl-1">*</span>
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      {/* Main Form Container - Compact Height */}
+      <div className="lg:col-span-8 bg-white border border-gray-200 shadow-2xl shadow-gray-200/50 rounded-[2rem] p-6 md:p-8">
+        <form onSubmit={handle_save_records} className="space-y-5">
+          
+          {/* Row 1: Name */}
+          <div className="space-y-1.5">
+            <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider ml-1">
+              Grocery Name
             </label>
             <input
               type="text"
-              placeholder="eg. Fresh Milk"
+              placeholder="Enter product name..."
               onChange={(e) => setname(e.target.value)}
               value={name}
-              className="w-full px-4 py-2 text-xs font-bold rounded-xl border-none bg-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#0d4e46]/20 transition-all placeholder:text-gray-500"
+              className="w-full px-5 py-3 text-sm font-semibold rounded-xl border-none bg-gray-200 text-gray-900 focus:ring-2 focus:ring-yellow-500/20 transition-all placeholder:text-gray-500"
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="block text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">
-                Category<span className="text-red-500 pl-1">*</span>
+          {/* Row 2: Category & Unit (Side by Side to save height) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="space-y-1.5">
+              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider ml-1">
+                Category
               </label>
               <select
-                className="w-full px-4 py-2 text-xs font-bold rounded-xl border-none bg-gray-200 text-gray-800 focus:outline-none appearance-none cursor-pointer"
+                className="w-full px-5 py-3 text-sm font-semibold rounded-xl border-none bg-gray-200 text-gray-900 appearance-none cursor-pointer focus:ring-2 focus:ring-yellow-500/20"
                 onChange={(e) => setcategory(e.target.value)}
                 value={category}
               >
                 {Geroceries_Category.map((i, index) => (
-                  <option key={index} value={i}>
-                    {i}
-                  </option>
+                  <option key={index} value={i}>{i}</option>
                 ))}
               </select>
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">
-                Unit<span className="text-red-500 pl-1">*</span>
+            <div className="space-y-1.5">
+              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider ml-1">
+                Unit
               </label>
               <select
-                className="w-full px-4 py-2 text-xs font-bold rounded-xl border-none bg-gray-200 text-gray-800 focus:outline-none appearance-none cursor-pointer"
+                className="w-full px-5 py-3 text-sm font-semibold rounded-xl border-none bg-gray-200 text-gray-900 appearance-none cursor-pointer focus:ring-2 focus:ring-yellow-500/20"
                 onChange={(e) => setcategory_unit(e.target.value)}
                 value={category_unit}
               >
                 {unit.map((i, index) => (
-                  <option key={index} value={i}>
-                    {i}
-                  </option>
+                  <option key={index} value={i}>{i}</option>
                 ))}
               </select>
             </div>
           </div>
 
-          <div className="space-y-1">
-            <label className="block text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">
-              Price (Rs)<span className="text-red-500 pl-1">*</span>
-            </label>
-            <input
-              type="number"
-              placeholder="eg. 130"
-              onChange={(e) => setprice(e.target.value)}
-              value={price}
-              className="w-full px-4 py-2 text-xs font-bold rounded-xl border-none bg-gray-200 text-gray-800 focus:outline-none transition-all placeholder:text-gray-500"
-            />
+          {/* Row 3: Price & Image Upload (Side by Side for compact view) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-end">
+            <div className="space-y-1.5">
+              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider ml-1">
+                Price (Rs)
+              </label>
+              <input
+                type="number"
+                placeholder="0.00"
+                onChange={(e) => setprice(e.target.value)}
+                value={price}
+                className="w-full px-5 py-3 text-sm font-semibold rounded-xl border-none bg-gray-200 text-gray-900 focus:ring-2 focus:ring-yellow-500/20 placeholder:text-gray-500"
+              />
+            </div>
+
+            <div className="relative">
+              <label
+                htmlFor="imageUpload"
+                className="flex items-center justify-between px-5 py-3 bg-gray-200 rounded-xl cursor-pointer hover:bg-gray-300 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <Upload size={18} className="text-gray-600" />
+                  <span className="text-xs font-bold text-gray-600 uppercase">Upload Image</span>
+                </div>
+                {frontend_image && (
+                  <div className="w-8 h-8 rounded-lg overflow-hidden border border-white">
+                    <Image src={frontend_image} alt="preview" width={32} height={32} className="object-cover" />
+                  </div>
+                )}
+              </label>
+              <input id="imageUpload" type="file" accept="image/*" onChange={handle_gerocery_image} className="hidden" />
+            </div>
           </div>
 
-          <div className="flex items-center justify-between gap-4 p-4 border-2 border-dashed border-gray-200 rounded-2xl bg-gray-50">
-            <label
-              htmlFor="imageUpload"
-              className="flex items-center gap-3 cursor-pointer group"
-            >
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-[#0d4e46] shadow-sm group-hover:bg-[#BEF383] transition-colors">
-                <Upload size={18} />
-              </div>
-              <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest leading-tight">
-                Click to upload <br /> product image
-              </span>
-            </label>
-
-            <input
-              id="imageUpload"
-              type="file"
-              accept="image/*"
-              onChange={handle_gerocery_image}
-              className="hidden"
-            />
-
-            {frontend_image && (
-              <div className="relative w-16 h-16 rounded-xl border-2 border-white shadow-md overflow-hidden bg-white">
-                <Image
-                  src={frontend_image}
-                  alt="preview"
-                  fill
-                  className="object-contain p-1"
-                />
-              </div>
-            )}
-          </div>
-
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 mt-2 flex items-center justify-center rounded-xl bg-[#0d4e46] text-white font-black text-xs uppercase tracking-[0.2em] shadow-lg hover:bg-[#083631] transition-all active:scale-[0.98] disabled:opacity-70 cursor-pointer"
+            className="w-full py-4 mt-2 rounded-2xl bg-gray-900 text-white font-bold text-sm uppercase hover:bg-black transition-all active:scale-[0.98] shadow-xl shadow-gray-200"
           >
-            {loading ? (
-              <Loader2 className="animate-spin h-5 w-5" />
-            ) : (
-              "Add gerocery to store"
-            )}
+            {loading ? <Loader2 className="animate-spin h-5 w-5 mx-auto" /> : "Add Item to Store"}
           </button>
         </form>
       </div>
+
+      {/* Right Side Summary Panel (Inspired by the 'Order Total' in ref) */}
+      <div className="lg:col-span-4 bg-gray-100 rounded-[2rem] p-8 border border-gray-200">
+        <h2 className="text-xl font-bold text-gray-900 mb-6">Inventory Summary</h2>
+        <div className="space-y-4 border-b border-gray-200 pb-6 mb-6">
+          <div className="flex justify-between text-sm font-medium text-gray-500">
+            <span>Item Name</span>
+            <span className="text-gray-900">{name || "---"}</span>
+          </div>
+          <div className="flex justify-between text-sm font-medium text-gray-500">
+            <span>Category</span>
+            <span className="text-gray-900">{category || "---"}</span>
+          </div>
+          <div className="flex justify-between text-sm font-medium text-gray-500">
+            <span>Unit Type</span>
+            <span className="text-gray-900">{category_unit || "---"}</span>
+          </div>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-lg font-bold text-gray-900">Total Price</span>
+          <span className="text-2xl font-black text-gray-900">Rs {price || 0}</span>
+        </div>
+        <p className="text-[10px] text-center text-gray-400 mt-8 uppercase font-bold tracking-tighter">
+            Secure Admin Dashboard Powered by SabziMart
+        </p>
+      </div>
     </div>
-  </main>
+  </div>
 </div>
   );
 }

@@ -49,30 +49,45 @@ export default function OrdersPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    // 1. Fetch the initial list of orders when the page loads.
+    const fetchInitialOrders = async () => {
       try {
         setLoading(true);
-
         const res = await fetch("/api/admin/get_items");
         const data = await res.json();
-
         setadminOrders(data);
       } catch (error) {
-        console.error("Error fetching orders:", error);
+        console.error("Error fetching initial orders:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchOrders();
-  }, []);
+    fetchInitialOrders();
+    const socket = getsocket();
+    const handleNewOrder = (newOrder: IOrder) => {
+      console.log('New order received via WebSocket:', newOrder);
+      setadminOrders(prevOrders => [newOrder, ...prevOrders]);
+    };
+    const statusupdation = (data:{orderid:string,status:any})=>{
+      console.log('socket sy status update: ',data);
+      setadminOrders(prevOrders => 
+      prevOrders.map(order => 
+        // ID comparison hamesha string mein karein
+        order._id?.toString() === data.orderid.toString() 
+          ? { ...order, status: data.status } 
+          : order
+      )
+    );
+    }
 
-  useEffect(()=>{
-    let socket = getsocket()
-    socket.on('neworders',(newOrder)=>{
-      console.log(newOrder);
-    })
-  },[])
+    socket.on('neworders', handleNewOrder);
+    socket.on('updatestatus', statusupdation);
+    return () => {
+      socket.off('neworders', handleNewOrder);
+      socket.off('updatestatus', statusupdation);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#fdfdfd] font-sans py-12 px-4 md:px-10">

@@ -86,10 +86,10 @@ function Navbar({ user }: { user: Iuser }) {
                     <Link href="/admin/add-items" onClick={() => setmenu(false)} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 text-gray-700 font-medium">
                       <PlusCircle size={18} /> Add Grocery
                     </Link>
-                    <Link href="/admin/get-items" onClick={() => setmenu(false)} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 text-gray-700 font-medium">
+                    <Link href="/admin/veiw-items" onClick={() => setmenu(false)} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 text-gray-700 font-medium">
                       <Boxes size={18} /> View Grocery
                     </Link>
-                    <Link href="/admin/manage" onClick={() => setmenu(false)} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 text-gray-700 font-medium">
+                    <Link href="/admin/get-items" onClick={() => setmenu(false)} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 text-gray-700 font-medium">
                       <ClipboardCheck size={18} /> Manage Grocery
                     </Link>
                   </>
@@ -189,10 +189,10 @@ function Navbar({ user }: { user: Iuser }) {
                     <Link href="/admin/add-items" className="flex items-center gap-2 px-5 py-2.5 bg-gray-100 text-gray-900 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all hover:bg-gray-300">
                       <PlusCircle size={16} /> Add Grocery
                     </Link>
-                    <Link href="/admin/get-items" className="flex items-center gap-2 px-5 py-2.5 bg-gray-100 text-gray-900 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all hover:bg-gray-300">
+                    <Link href="/admin/veiw-items" className="flex items-center gap-2 px-5 py-2.5 bg-gray-100 text-gray-900 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all hover:bg-gray-300">
                       <Boxes size={16} /> View Grocery
                     </Link>
-                    <Link href="/admin/manage" className="flex items-center gap-2 px-5 py-2.5 bg-gray-100 text-gray-900 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all hover:bg-gray-300">
+                    <Link href="/admin/get-items" className="flex items-center gap-2 px-5 py-2.5 bg-gray-100 text-gray-900 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all hover:bg-gray-300">
                       <ClipboardCheck size={16} /> Manage
                     </Link>
                   </>

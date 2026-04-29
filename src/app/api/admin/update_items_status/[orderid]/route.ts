@@ -1,3 +1,4 @@
+import commonemitHandler from "@/config/commonemit";
 import connectDB from "@/config/db";
 import OrderAssignment from "@/models/orderassignmentmodel";
 import Order from "@/models/ordermodel";
@@ -23,10 +24,6 @@ export async function POST(req: NextRequest, { params }: { params: { orderid: st
             if (coords && coords.latitude && coords.longitude) {
                 const lng = Number(coords.longitude);
                 const lat = Number(coords.latitude);
-
-                console.log("--- DEBUG START ---");
-                console.log("Order Location:", [lng, lat]);
-
                 // Check 2: Distance ko 5km se barha kar 500km kar dein (Testing ke liye)
                 // Check 3: isOnlinestatus ko hata kar dekhein shayad wo false ho
                 const nearbyRiders = await User.find({
@@ -47,8 +44,6 @@ export async function POST(req: NextRequest, { params }: { params: { orderid: st
                 if(nearbyRiders.length > 0) {
                     console.log("First Rider Name:", nearbyRiders[0].name);
                 }
-                console.log("--- DEBUG END ---");
-
                 if (nearbyRiders.length > 0) {
                     const riderIds = nearbyRiders.map((r) => r._id);
                     const assignment = await OrderAssignment.create({
@@ -71,6 +66,7 @@ export async function POST(req: NextRequest, { params }: { params: { orderid: st
         }
 
         await order.save();
+        await commonemitHandler('updatestatus',{orderid:order._id,status:order.status});
         const finalOrder = await Order.findById(orderid).populate({
             path: 'assignment',
             populate: {
