@@ -4,16 +4,13 @@ import {
   ChevronDown,
   ChevronUp,
   CreditCard,
-  Hash,
-  MapPin,
-  Phone,
   ShoppingBag,
   Truck,
-  User,
 } from "lucide-react";
 import mongoose from "mongoose";
 import React, { useState } from "react";
 
+// Proper Interface taake error na aaye
 interface IOrder {
   _id?: mongoose.Types.ObjectId;
   user?: mongoose.Types.ObjectId;
@@ -26,7 +23,7 @@ interface IOrder {
       unit: string;
       image: string;
       quantity: number;
-    },
+    }
   ];
   totalammount: number;
   paymentmethod: "cod" | "online";
@@ -40,6 +37,9 @@ interface IOrder {
     latitude: number;
     longitude: number;
   };
+  // Isay Populate compatible banaya gaya hai
+  assignment: any; 
+  deliveryrider: mongoose.Types.ObjectId;
   isPaid: boolean;
   status: "pending" | "out of delivery" | "deliverd";
   createdAt: Date;
@@ -48,8 +48,6 @@ interface IOrder {
 
 function AdminOrderCart({ order }: { order: IOrder }) {
   const [hide, sethide] = useState(false);
-
-  // Status update ke liye local state
   const [currentStatus, setCurrentStatus] = useState(order.status);
 
   const updatestatus = async (orderId: string, newStatus: string) => {
@@ -59,7 +57,6 @@ function AdminOrderCart({ order }: { order: IOrder }) {
         { status: newStatus },
       );
       if (result.status === 200) {
-        // Success hone par state update karein
         setCurrentStatus(newStatus as any);
       }
       console.log(result.data);
@@ -185,7 +182,7 @@ function AdminOrderCart({ order }: { order: IOrder }) {
           </table>
         </div>
       </div>
-      <div className="space-y-4">
+      <div className="space-y-4 border-b border-gray-100 pb-6">
         <button
           onClick={() => sethide((prev) => !prev)}
           className="w-full flex items-center justify-between group py-2"
@@ -234,10 +231,11 @@ function AdminOrderCart({ order }: { order: IOrder }) {
           </div>
         )}
       </div>
+
       <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-6 p-8 bg-yellow-50/40 rounded-lg border border-yellow-100/50">
         <div className="flex items-center gap-6">
           <div className="flex flex-col gap-1 border-r border-yellow-200 pr-6">
-            <span className="text-[9px] font-black text-yellow-600 uppercase">
+            <span className="text-[9px] font-black text-yellow-600 uppercase tracking-widest">
               Payment via
             </span>
             <div className="flex items-center gap-2">
@@ -251,18 +249,50 @@ function AdminOrderCart({ order }: { order: IOrder }) {
               </span>
             </div>
           </div>
-          <div className="flex flex-col gap-1">
-            <span className="text-[9px] font-black text-yellow-600">
+
+          <div className="flex flex-col gap-1 border-r border-yellow-200 pr-6">
+            <span className="text-[9px] font-black text-yellow-600 uppercase tracking-widest">
               Current Status
             </span>
             <span className="text-[11px] font-black text-gray-900 uppercase">
               {currentStatus}
             </span>
           </div>
+
+          {/* Rider Details Section */}
+          {order.assignment?.assignto ? (
+            <div className="flex flex-col gap-1">
+              <span className="text-[9px] font-black text-yellow-600 uppercase tracking-widest mt-2">
+                Assigned Rider
+              </span>
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 bg-gray-900 rounded-full flex items-center justify-center text-[8px] text-yellow-500 font-bold">
+                  {order.assignment.assignto.name[0].toUpperCase()}
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[11px] font-black text-gray-900 uppercase leading-none">
+                    {order.assignment.assignto.name}
+                  </span>
+                  <span className="text-[9px] font-bold text-gray-500">
+                    {order.assignment.assignto.mobile}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ) : currentStatus === "out of delivery" ? (
+            <div className="flex flex-col gap-1">
+              <span className="text-[9px] font-black text-yellow-600 uppercase tracking-widest">
+                Rider Status
+              </span>
+              <span className="text-[10px] font-bold text-gray-400 italic animate-pulse">
+                Searching...
+              </span>
+            </div>
+          ) : null}
         </div>
 
         <div className="text-right">
-          <p className="text-[10px] font-black text-yellow-600 mb-1">
+          <p className="text-[10px] font-black text-yellow-600 mb-1 tracking-widest">
             Total Amount Payable
           </p>
           <h2 className="text-xl font-black text-gray-800">

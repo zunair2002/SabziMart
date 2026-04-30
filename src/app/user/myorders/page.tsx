@@ -17,7 +17,7 @@ interface IOrder {
       unit: string;
       image: string;
       quantity: number;
-    },
+    }
   ];
   totalammount: number;
   paymentmethod: "cod" | "online";
@@ -31,6 +31,9 @@ interface IOrder {
     latitude: number;
     longitude: number;
   };
+  // Isay Populate compatible banaya gaya hai
+  assignment: any; 
+  deliveryrider: mongoose.Types.ObjectId;
   isPaid: boolean;
   status: "pending" | "out of delivery" | "deliverd";
   createdAt: Date;
@@ -41,16 +44,13 @@ function Myorders() {
   const [loading, setLoading] = useState(true);
 useEffect(() => {
   const socket = getsocket();
-
-  // 1. Socket Listener (Structure fix: data.orderid aur partial update)
   const handleStatusUpdate = (data: { orderid: string; status: IOrder['status'] }) => {
     console.log('Server se status update mila:', data);
     
     setOrders(currentOrders =>
       currentOrders.map(order => 
-        // Backend se 'orderid' aa raha hai, isliye data.orderid check karein
         order._id?.toString() === data.orderid.toString() 
-          ? { ...order, status: data.status } // Sirf status badlein, baki details (items, address) wahi rahein
+          ? { ...order, status: data.status } 
           : order
       )
     );

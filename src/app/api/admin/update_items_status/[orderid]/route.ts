@@ -17,35 +17,27 @@ export async function POST(req: NextRequest, { params }: { params: { orderid: st
         order.status = status;
         let deliveryRidersPayload: any = [];
 
-        // Check 1: Kya spelling exact match ho rahi hai?
         if (status.toLowerCase() === 'out of delivery') {
             const coords = order.adress;
 
             if (coords && coords.latitude && coords.longitude) {
                 const lng = Number(coords.longitude);
                 const lat = Number(coords.latitude);
-                // Check 2: Distance ko 5km se barha kar 500km kar dein (Testing ke liye)
-                // Check 3: isOnlinestatus ko hata kar dekhein shayad wo false ho
+
                 const nearbyRiders = await User.find({
                     role: 'rider',
-                    // isOnlinestatus: true, // Temporarily commented for testing
                     location: {
                         $near: {
-                            $geometry: { 
-                                type: 'Point', 
-                                coordinates: [lng, lat] 
-                            },
-                            $maxDistance: 5000 // 500km radius (zyada distance)
+                            $geometry: { type: 'Point', coordinates: [lng, lat] },
+                            $maxDistance: 5000 
                         }
                     }
                 });
 
-                console.log("Nearby Riders Found Count:", nearbyRiders.length);
-                if(nearbyRiders.length > 0) {
-                    console.log("First Rider Name:", nearbyRiders[0].name);
-                }
+
                 if (nearbyRiders.length > 0) {
                     const riderIds = nearbyRiders.map((r) => r._id);
+                    
                     const assignment = await OrderAssignment.create({
                         order: order._id,
                         brodcasting: riderIds,
@@ -54,24 +46,29 @@ export async function POST(req: NextRequest, { params }: { params: { orderid: st
 
                     order.assignment = assignment._id;
 
+                    const populatedAssignment = await OrderAssignment.findById(assignment._id).populate('order');
+
+                    await commonemitHandler('new-assignment', {
+                        assignment: populatedAssignment,
+                        riderIds: riderIds
+                    });
+
                     deliveryRidersPayload = nearbyRiders.map(rider => ({
                         id: rider._id,
                         name: rider.name,
                         mobile: rider.mobile,
-                        latitude: rider.location.coordinates[1],
-                        longitude: rider.location.coordinates[0],
                     }));
                 }
             }
         }
 
         await order.save();
-        await commonemitHandler('updatestatus',{orderid:order._id,status:order.status});
+        
+        await commonemitHandler('updatestatus', { orderid: order._id, status: order.status });
+
         const finalOrder = await Order.findById(orderid).populate({
             path: 'assignment',
-            populate: {
-                path: 'order' 
-            }
+            populate: { path: 'order' }
         });
 
         return NextResponse.json({
@@ -81,7 +78,7 @@ export async function POST(req: NextRequest, { params }: { params: { orderid: st
         }, { status: 200 });
 
     } catch (error: any) {
-        console.error("Route Error:", error.message);
+        console.error("Admin Route Error:", error.message);
         return NextResponse.json({ message: "Error", error: error.message }, { status: 500 });
     }
 }

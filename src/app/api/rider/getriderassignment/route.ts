@@ -5,22 +5,21 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
     try {
-        connectDB();
-        const session = await auth()
-        const assignmnets = await OrderAssignment.find({
-            brodcasting:session?.user.id,
-            status:'brodcasted'
+        await connectDB();
+        const session = await auth();
+        if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+
+        const userId = session.user.id;
+        const assignments = await OrderAssignment.find({
+            brodcasting: userId, 
+            status: 'brodcasted',
+            rejectedBy: { $ne: userId } 
         }).populate({
-        path: 'order'
-    });
-        return NextResponse.json(
-            assignmnets,
-            { status: 200 }
-        );
+            path: 'order'
+        }).sort({ createdAt: -1 });
+
+        return NextResponse.json(assignments, { status: 200 });
     } catch (error) {
-        return NextResponse.json(
-            { message: `Get assignment error: ${error}` },
-            { status: 500 }
-        );
+        return NextResponse.json({ message: `Error: ${error}` }, { status: 500 });
     }
 }

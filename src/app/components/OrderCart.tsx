@@ -1,37 +1,41 @@
 import React, { useState } from 'react'
 import mongoose from 'mongoose'
-import { Box, ChevronDown, ChevronUp, CreditCard, MapPin, Truck } from 'lucide-react';
+import { Box, ChevronDown, ChevronUp, CreditCard, MapPin, Phone, Truck } from 'lucide-react';
 import { span } from 'motion/react-client';
-interface IOrder{
-    _id?:mongoose.Types.ObjectId,
-    user?:mongoose.Types.ObjectId,
-    items:[
-        {
-            gerocery:mongoose.Types.ObjectId,
-            name: string,
-            category: string,
-            price: string,
-            unit: string,
-            image: string,
-            quantity:number
-        }
-    ],
-    totalammount:number,
-    paymentmethod:'cod'|'online',
-    adress:{
-    name: string,
-    mobileno: string,
-    city: string,
-    state: string,
-    zipcode: string,
-    fulllocation: string,
-    latitude:number,
-    longitude:number
-    },
-    isPaid:boolean,
-    status:'pending'|'out of delivery'|'deliverd',
-    createdAt: Date;
-    updatedAt: Date;
+// Proper Interface taake error na aaye
+interface IOrder {
+  _id?: mongoose.Types.ObjectId;
+  user?: mongoose.Types.ObjectId;
+  items: [
+    {
+      gerocery: mongoose.Types.ObjectId;
+      name: string;
+      category: string;
+      price: string;
+      unit: string;
+      image: string;
+      quantity: number;
+    }
+  ];
+  totalammount: number;
+  paymentmethod: "cod" | "online";
+  adress: {
+    name: string;
+    mobileno: string;
+    city: string;
+    state: string;
+    zipcode: string;
+    fulllocation: string;
+    latitude: number;
+    longitude: number;
+  };
+  // Isay Populate compatible banaya gaya hai
+  assignment: any; 
+  deliveryrider: mongoose.Types.ObjectId;
+  isPaid: boolean;
+  status: "pending" | "out of delivery" | "deliverd";
+  createdAt: Date;
+  updatedAt: Date;
 }
 function OrderCart({order}:{order:IOrder}) {
   const [hide,sethide] = useState(false);
@@ -123,6 +127,51 @@ className="text-gray-800 px-5 text-[15px] font-bold flex items-center gap-1 tran
     {order.status}
   </div>
 </div>
+ {order.assignment?.assignto ? (
+  <div className="mt-1 bg-white rounded-xl px-3 py-2 flex items-center justify-between">
+
+  <div className="flex items-center gap-2">
+   <div className="flex items-center gap-2">
+  <div className="relative">
+    <div className="w-7 h-7 bg-yellow-500 rounded-full flex items-center justify-center text-[10px] font-bold text-gray-900">
+      {order.assignment.assignto.name[0].toUpperCase()}
+    </div>
+    <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-green-500 border border-white rounded-full"></div>
+  </div>
+  <div className="leading-tight">
+    <h6 className="text-[9px] font-semibold text-gray-900 leading-none">
+      {order.assignment.assignto.name}
+    </h6>
+  </div>
+
+</div>
+
+  </div>
+<a
+  href={`tel:${order.assignment.assignto.mobile}`}
+  className="ml-2 flex items-center gap-1 bg-transparent border border-yellow-500 text-yellow-600 text-[10px] font-semibold px-2.5 py-1.5 rounded-md transition-all duration-200 hover:bg-yellow-200 hover:border-yellow-200 hover:text-yellow-700 active:scale-95"
+>
+  <Phone size={12} fill="currentColor" strokeWidth={0} />
+  Call
+</a>
+
+</div>
+) : order.status === "out of delivery" ? (
+  <div className="mt-6 bg-gray-50 border-2 border-dashed border-gray-200 rounded-3xl p-6 flex flex-col items-center text-center">
+    <div className="relative mb-3">
+        <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+            <Truck size={24} className="text-gray-300" />
+        </div>
+        <div className="absolute inset-0 border-2 border-yellow-500 rounded-full animate-ping opacity-25"></div>
+    </div>
+    <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest">
+      Finding Nearest Rider
+    </h4>
+    <p className="text-[10px] font-bold text-gray-400 uppercase mt-1">
+      Your order is ready for pickup
+    </p>
+  </div>
+) : null}
       <div className="hidden md:flex items-center gap-1 text-gray-400 font-bold text-[11px] ml-4">
         <MapPin size={14} className='text-gray-400' /> {order.adress.city}
       </div>
